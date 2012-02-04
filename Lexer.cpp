@@ -1,16 +1,16 @@
 #include "Lexer.h"
 
 
-Lexer::Lexer(std::string sourceFile) {
+Lexer::Lexer(std::ifstream* sourceFile) {
 	// Open the source code file for reading.
-	this->sourceFile.open(sourceFile.c_str());
+	this->sourceFile = sourceFile;
 }
 
 
 Lexer::~Lexer() {
 	// Close the source code file.
-	if ( sourceFile.is_open() ) {
-		sourceFile.close();
+	if ( sourceFile->is_open() ) {
+		sourceFile->close();
 	}
 }
 
@@ -19,7 +19,7 @@ Token* Lexer::scan() {
 	Token* token = NULL;
 
 	// Throw exception if file is not good.
-	if ( sourceFile.good() == false ) {
+	if ( sourceFile->good() == false ) {
 		throw new Exception("Source file is not 'good' for uknown reason(s). This is bad; I sure hope it never prints. Ever.\n");
 	}
 
@@ -27,7 +27,7 @@ Token* Lexer::scan() {
 	skipWhitespace();
 
 	// Return NULL if at the end of the source code file.
-	if ( sourceFile.eof() ) {
+	if ( sourceFile->eof() ) {
 		return NULL;
 	}
 
@@ -131,10 +131,10 @@ Token* Lexer::compareKeyword(std::string* stringValue) {
 
 char Lexer::readCharacter() {
 	// Move the file pointer one character over.
-	sourceFile.get();
+	sourceFile->get();
 
 	// Return the character that the file pointer is now pointing to.
-	return sourceFile.peek();
+	return sourceFile->peek();
 }
 
 
@@ -167,7 +167,7 @@ char Lexer::matchCharacterSpecial() {
 
 Token* Lexer::matchExpression() {
 	// Peek at the next character in the source code file stream.
-	char character = sourceFile.peek();
+	char character = sourceFile->peek();
 
 	// Try to match the read-in character to an expression.
 	switch ( character ) {
@@ -209,7 +209,8 @@ Token* Lexer::matchExpression() {
 
 Token* Lexer::matchIntegerOrReal() {
 	// Peek at the next character in the source code file stream.
-	char character = sourceFile.peek();
+	char character = sourceFile->peek();
+
 	// Integer value to store the digit in.
 	int integerValue = 0xdeadbeef;
 
@@ -337,7 +338,7 @@ Token* Lexer::matchKeywordOrStringNonDelimited() {
 	char character = '\0';
 
 	// Peek at the next character in the source code file.
-	character = sourceFile.peek();
+	character = sourceFile->peek();
 
 	// Check if the next character begins a keyword or string.
 	if ( !isalpha( character ) && character != '_' ) {
@@ -379,7 +380,7 @@ Token* Lexer::matchStringDelimited() {
 	char character = '\0';
 
 	// Peek at the next character in the source code file.
-	character = sourceFile.peek();
+	character = sourceFile->peek();
 
 	// Check that the next character matches a possible string delimiter.
 	if ( character != '\'' && character != '"' ) {
@@ -409,7 +410,7 @@ Token* Lexer::matchStringDelimited() {
 		character = readCharacter();
 
 		// Check for the end of the file.
-		if ( sourceFile.eof() == true ) {
+		if ( sourceFile->eof() == true ) {
 			delete stringValue;
 			throw new Exception("End of file reached before end of string.\n");
 		}
@@ -425,7 +426,7 @@ Token* Lexer::matchStringDelimited() {
 
 void Lexer::skipWhitespace() {
 	// Peek at the next character in the source code file stream.
-	char character = sourceFile.peek();
+	char character = sourceFile->peek();
 
 	// Continuously read-in the file until a non-whitespace character is found.
 	while ( character == ' ' || character == '\n' || character == '\t' ) {

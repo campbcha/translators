@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 #include <list>
+#include <limits.h>
 
 #include "../../Tokens/Tokens.h"
 #include "../../Lexer.h"
@@ -31,23 +32,23 @@ public:
 	/**
 	 *
 	 */
-	Tester(std::string fileName);
-
-	/**
-	 * @throws Exception with a message
-	 */
-	void run(VerboseType vType);
-
-private:
-	std::string testFileName;
-	std::ofstream testFile;
-	std::list<Token> tokenList;
-
+	Tester();
+	
 	
 	/**
 	 *
 	 */
-	void generateTestFile();
+	void generateTestFile(std::string testFileName);
+
+
+	/**
+	 * @throws Exception with a message
+	 */
+	void run(Lexer testLexer, VerboseType vType);
+
+private:
+	std::list<Token> tokenList;
+
 
 	/**
 	 *
@@ -81,3 +82,4 @@ private:
 };
 
 #endif
+

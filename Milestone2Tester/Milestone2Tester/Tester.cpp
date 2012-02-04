@@ -1,20 +1,13 @@
 #include "Tester.h"
 
 
-Tester::Tester(std::string fileName) {
-	// Create test file stream
-	testFileName = fileName;
-	testFile.open(testFileName.c_str());
-	if ( testFile.is_open() == false ) {
-		throw new Exception("Unable to open file to write");
-	}
-
+Tester::Tester() {
 	// Seed random number generator
 	srand(time(NULL));
 }
 
 // NEED to accept Lexical analyzer
-void Tester::run(VerboseType vType) {
+void Tester::run(Lexer testLexer, VerboseType vType) {
 	std::list<Token>::iterator tokenIterator;
 	Token lexerToken;
 	Token storedToken;
@@ -31,35 +24,36 @@ void Tester::run(VerboseType vType) {
 		std::cout << "VERBOSE ERROR\n\n";
 	}
 
-	std::cout << "--------- Generating Test File --------\n";
-	generateTestFile();
-	std::cout << "------ Done Generating Test File ------\n\n";
+	for ( tokenIterator = tokenList.begin(); tokenIterator != tokenList.end(); tokenIterator++ ) {
+		try {
+			storedToken = *tokenIterator;
+			lexerToken = *testLexer.scan();
 
-	Lexer testLexer = Lexer(testFileName);
-
-	//for ( tokenIterator = tokenList.begin(); tokenIterator != tokenList.end(); tokenIterator++ ) {
-	//	try {
-	//		storedToken = *tokenIterator;
-	//		lexerToken = *testLexer.scan();
-
-	//		// Compare tokens
-	//		if ( storedToken.getTag() != lexerToken.getTag() ) {
-	//			std::cout << "TOKEN TAG MISMATCH: " << storedToken.getTag() << " " << lexerToken.getTag() << "\n";
-	//		} else {
-	//			std::cout << "TOKEN MATCH: " << storedToken.getTag() << "\n";
-	//		}
-	//	} catch ( Exception e ) {
-	//		if ( vType != NONE ) {
-	//			std::cout << "!!EXCEPTION THROWN!!\n";
-	//		}
-	//	}
-	//}
+			// Compare tokens
+			if ( storedToken.getTag() != lexerToken.getTag() ) {
+				std::cout << "TOKEN TAG MISMATCH: " << storedToken.getTag() << " " << lexerToken.getTag() << "\n";
+			} else {
+				std::cout << "TOKEN MATCH: " << storedToken.getTag() << "\n";
+			}
+		} catch ( Exception* e ) {
+			if ( vType != NONE ) {
+				std::cout << "!!EXCEPTION THROWN!! " << *e->getMessage();
+			}
+		}
+	}
 }
 
 
-void Tester::generateTestFile() {
+void Tester::generateTestFile(std::string testFileName) {
 	// Generate number of lexemes to use in file
 	int numLexemes = rand() % (MAX_LEXEMES + 1);
+	std::ofstream testFile;
+
+	// Create test file stream
+	testFile.open(testFileName.c_str());
+	if ( testFile.is_open() == false ) {
+		throw new Exception("Unable to open file to write");
+	}
 
 	// Generate file of lexemes
 	for ( int i = 0; i < numLexemes; i++ ){
@@ -344,3 +338,4 @@ std::string Tester::generateWhiteSpace() {
 int Tester::randInt() {
 	return rand() % INT_MAX;
 }
+

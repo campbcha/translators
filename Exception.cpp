@@ -17,3 +17,7 @@ void Exception::print() {
 	std::cerr << this->message->c_str();
 }
 
+
+std::string* Exception::getMessage() {
+	return this->message;
+}

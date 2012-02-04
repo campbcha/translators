@@ -1,13 +1,20 @@
 #include <iostream>
+#include <fstream>
 
 #include "Tester.h"
 
 int main(int argc, char** argv) {
-	
-	Tester myTester("testFile.txt");
+	std::string testFileName = "testFile.txt";
+	std::ifstream testFileIn;
+
+	Tester myTester;
 
 	try {
-		myTester.run(ALL);
+		myTester.generateTestFile(testFileName);
+
+		testFileIn.open(testFileName.c_str());
+		Lexer testLexer = Lexer(&testFileIn);
+		myTester.run(testLexer, ALL);
 
 		
 	} catch (Exception e) {
@@ -20,3 +27,4 @@ int main(int argc, char** argv) {
 	std::cin.get();
 	return 0;
 }
+

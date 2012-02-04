@@ -20,7 +20,7 @@ class Lexer {
 public:
 	/** Instantiate a new Lexer object that opens and reads input from the specified filepath.
 	 */
-	Lexer(std::string sourceFile);
+	Lexer(std::ifstream* sourceFile);
 
 	/** Closes the file object associated with the Lexer.
 	 */
@@ -34,7 +34,7 @@ public:
 
 private:
 	// The source code file from which input is read and tokens are produced from.
-	std::ifstream sourceFile;
+	std::ifstream* sourceFile;
 
 	/** Compare the specified string object to a keyword within the IBTL. If the strings match, return the Token associated with that keyword; if the strings do not match, return NULL.
 	 *  @return	The Token associated with the keyword and the specified string, or NULL if no keyword matches the string.
