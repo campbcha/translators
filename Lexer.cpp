@@ -3,7 +3,7 @@
 
 Lexer::Lexer(std::string sourceFile) {
 	// Open the source code file for reading.
-	this->sourceFile.open(sourceFile);
+	this->sourceFile.open(sourceFile.c_str());
 }
 
 
