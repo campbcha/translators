@@ -3,7 +3,7 @@
 
 Lexer::Lexer(std::string sourceFile) {
 	// Open the source code file for reading.
-	this->sourceFile.open(sourceFile.c_str());
+	this->sourceFile.open(sourceFile);
 }
 
 
@@ -277,7 +277,8 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 	}
 
 	// Calculate the real number value.
-	realValue = integerValue + ( decimalValue / ((double)( pow(10, decimalLength) )) );
+	// CHANGED pow(int, int) to pow(float, int) for compatibility w/Win
+	realValue = integerValue + ( decimalValue / ((double)( pow(10., decimalLength) )) );
 
 	// Check to see if an exponent exists.
 	if ( character == 'E' ) {

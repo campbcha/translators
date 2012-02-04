@@ -36,7 +36,7 @@ enum Tag {
 	STATEMENT_IFF,
 	STATEMENT_LET,
 	STATEMENT_WHILE,
-	// Type defiitions.
+	// Type definitions.
 	TYPE_BOOLEAN,
 	TYPE_INTEGER,
 	TYPE_REAL,
@@ -45,7 +45,9 @@ enum Tag {
 	VALUE_BOOLEAN,
 	VALUE_INTEGER,
 	VALUE_REAL,
-	VALUE_STRING
+	VALUE_STRING,
+	// Add any new tags above this comment
+	TAG_MAX
 };
 
 /** Token class meant to be passed to the Parser.
