@@ -4,7 +4,7 @@
 Tester::Tester(std::string fileName) {
 	// Create test file stream
 	testFileName = fileName;
-	testFile.open(testFileName);
+	testFile.open(testFileName.c_str());
 	if ( testFile.is_open() == false ) {
 		throw new Exception("Unable to open file to write");
 	}

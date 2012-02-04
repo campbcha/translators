@@ -1,14 +1,42 @@
 CCC = g++
 CCFLAGS = --pedantic-errors -Wall -Werror
-OBJS = main.o Exception.o Lexer.o Token.o TokenBoolean.o TokenInteger.o TokenReal.o TokenString.o
-SOURCE = main.cpp Exception.cpp Lexer.cpp Tokens/Token.cpp Tokens/TokenBoolean.cpp Tokens/TokenInteger.cpp Tokens/TokenReal.cpp Tokens/TokenString.cpp
-HEADER = Exception.h Lexer.h Tokens/Token.h Tokens/TokenBoolean.h Tokens/TokenBoolean.h Tokens/TokenReal.h Tokens/TokenString.h
+TESTDIR = Milestone2Tester/Milestone2Tester
+OBJS = Main.o \
+       Exception.o \
+       Lexer.o \
+       Token.o \
+       TokenBoolean.o \
+       TokenInteger.o \
+       TokenReal.o \
+       TokenString.o \
+       Tester.o
+SOURCE = $(TESTDIR)/Main.cpp \
+         Exception.cpp \
+         Lexer.cpp \
+         Tokens/Token.cpp \
+         Tokens/TokenBoolean.cpp \
+         Tokens/TokenInteger.cpp \
+         Tokens/TokenReal.cpp \
+         Tokens/TokenString.cpp \
+         $(TESTDIR)/Tester.cpp
+HEADER = Exception.h \
+         Lexer.h \
+         Tokens/Token.h \
+         Tokens/TokenBoolean.h \
+         Tokens/TokenBoolean.h \
+         Tokens/TokenReal.h \
+         Tokens/TokenString.h \
+         $(TESTDIR)/Tester.h
 RUNFLAGS = ""
 
-default: ${OBJS} compiler clean
+#default: ${OBJS} compiler clean
+default : $(OBJS) tester clean
 
 ${OBJS}: ${SOURCE} ${HEADER}
 	$(CCC) $(CCFLAGS) -c $(SOURCE)
+
+tester: $(OBJS)
+	$(CCC) $(CCFLAGS) -o tester $(OBJS)
 
 compiler: $(OBJS)
 	$(CCC) $(CCFLAGS) -o compiler $(OBJS)

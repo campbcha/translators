@@ -9,9 +9,9 @@
 #include <sstream>
 #include <list>
 
-#include "Tokens.h"
-#include "Lexer.h"
-#include "Exception.h"
+#include "../../Tokens/Tokens.h"
+#include "../../Lexer.h"
+#include "../../Exception.h"
 
 #define INIT_VAL 0xdeadbeef
 #define MAX_LEXEMES 500
