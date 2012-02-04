@@ -16,7 +16,7 @@
 
 #define INIT_VAL 0xdeadbeef
 #define MAX_LEXEMES 500
-#define MAX_WHITE_SPACE 1
+#define MAX_WHITE_SPACE 10 
 #define MAX_STRING_LENGTH 50
 
 enum VerboseType {
