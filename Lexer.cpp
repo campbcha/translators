@@ -208,6 +208,8 @@ Token* Lexer::matchExpression() {
 
 
 Token* Lexer::matchIntegerOrReal() {
+	// The base of the number system.
+	const int RADIX = 10;
 	// Peek at the next character in the source code file stream.
 	char character = sourceFile->peek();
 
@@ -225,7 +227,7 @@ Token* Lexer::matchIntegerOrReal() {
 	// Calculate the intger value.
 	while ( isdigit(character) ) {
 		// Set the current integer value.
-		integerValue = ( integerValue * 10 ) + ( character - '0' );
+		integerValue = ( integerValue * RADIX ) + ( character - '0' );
 
 		// Check the next character.
 		character = readCharacter();
@@ -236,7 +238,7 @@ Token* Lexer::matchIntegerOrReal() {
 		}
 		
 		// Check for a real number exponent.
-		if ( character == 'E' ) {
+		if ( character == 'e' ) {
 			return matchRealExponent(integerValue);
 		}
 	}
@@ -247,6 +249,8 @@ Token* Lexer::matchIntegerOrReal() {
 
 
 Token* Lexer::matchRealDecimal(int integerValue) {
+	// The base of the number system.
+	const int RADIX = 10;
 	// The next character in the file stream.
 	char character = '\0';
 	double realValue = 0xdeadbeef;
@@ -257,9 +261,10 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 	character = readCharacter();
 
 	// Check that the next character is a digit.
+	/*
 	if ( !isdigit( character ) ) {
 		throw new Exception("Expected number after '.'.\n");
-	}
+	}*/
 
 	// Initialize the decimal value and length.
 	decimalLength = 0;
@@ -268,7 +273,7 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 	// Calculate the decimal value.
 	while( isdigit( character ) ) {
 		// Set the current decimal value.
-		decimalValue = ( decimalValue * 10 ) + ( character - '0' );
+		decimalValue = ( decimalValue * RADIX ) + ( character - '0' );
 
 		// Increment the decimal length.
 		decimalLength++;
@@ -279,10 +284,15 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 
 	// Calculate the real number value.
 	// CHANGED pow(int, int) to pow(float, int) for compatibility w/Win
-	realValue = integerValue + ( decimalValue / ((double)( pow(10., decimalLength) )) );
+	if ( decimalLength == 0 ) {
+		realValue = (double)integerValue;
+	}
+	else {
+		realValue = integerValue + ( decimalValue / ((double)( pow(((double)RADIX), decimalLength) )) );
+	}
 
 	// Check to see if an exponent exists.
-	if ( character == 'E' ) {
+	if ( character == 'e' ) {
 		return matchRealExponent(realValue);
 	}
 
@@ -297,6 +307,8 @@ Token* Lexer::matchRealExponent(int integerValue) {
 }
 
 Token* Lexer::matchRealExponent(double baseValue) {
+	// The base of the number system.
+	const int RADIX = 10;
 	// The next character in the file stream.
 	char character = '\0';
 	double exponentValue = 0xdeadbeef;
@@ -315,14 +327,14 @@ Token* Lexer::matchRealExponent(double baseValue) {
 	// Calculate the exponent.
 	while( isdigit( character ) ) {
 		// Set the current exponent value.
-		exponentValue = ( exponentValue * 10 ) + ( character - '0' );
+		exponentValue = ( exponentValue * RADIX ) + ( character - '0' );
 
 		// Read in the next character.
 		character = readCharacter();
 	}
 
 	// Multiply the real number by the exponent.
-	baseValue *= pow(10, exponentValue);
+	baseValue *= pow(RADIX, exponentValue);
 
 	// Return the TokenReal with the complete real number value.
 	return new TokenReal(baseValue);
