@@ -5,15 +5,13 @@
 
 int main(int argc, char** argv) {
 	std::string testFileName = "testFile.txt";
-	std::ifstream testFileIn;
 
 	Tester myTester;
 
 	try {
 		myTester.generateTestFile(testFileName);
 
-		testFileIn.open(testFileName.c_str());
-		Lexer testLexer = Lexer(&testFileIn);
+		Lexer* testLexer = new Lexer(testFileName);
 		myTester.run(testLexer, ALL);
 
 		

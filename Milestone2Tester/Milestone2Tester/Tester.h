@@ -44,7 +44,7 @@ public:
 	/**
 	 * @throws Exception with a message
 	 */
-	void run(Lexer testLexer, VerboseType vType);
+	void run(Lexer* testLexer, VerboseType vType);
 
 private:
 	std::list<Token> tokenList;

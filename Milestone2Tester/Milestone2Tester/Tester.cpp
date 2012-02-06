@@ -7,7 +7,7 @@ Tester::Tester() {
 }
 
 // NEED to accept Lexical analyzer
-void Tester::run(Lexer testLexer, VerboseType vType) {
+void Tester::run(Lexer* testLexer, VerboseType vType) {
 	std::list<Token>::iterator tokenIterator;
 	Token lexerToken;
 	Token storedToken;
@@ -27,7 +27,7 @@ void Tester::run(Lexer testLexer, VerboseType vType) {
 	for ( tokenIterator = tokenList.begin(); tokenIterator != tokenList.end(); tokenIterator++ ) {
 		try {
 			storedToken = *tokenIterator;
-			lexerToken = *testLexer.scan();
+			lexerToken = *testLexer->scan();
 
 			// Compare tokens
 			if ( storedToken.getTag() != lexerToken.getTag() ) {

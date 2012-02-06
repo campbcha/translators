@@ -1,5 +1,6 @@
 *.[ao] # Ignore object file and static-object library files (archives)
 *~ # Ignore temporary files (such as those created by text editors)
+*.swp # Ignore .swp giles created by vim
 
 # Ignore project output
 compiler
