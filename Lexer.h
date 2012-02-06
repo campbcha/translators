@@ -36,6 +36,9 @@ private:
 	// The source code file from which input is read and tokens are produced from.
 	std::ifstream sourceFile;
 
+	// The line of the source code file that the lexical analyzer is currently on.
+	int lineNumber;
+
 	/** Compare the specified string object to a keyword within the IBTL. If the strings match, return the Token associated with that keyword; if the strings do not match, return NULL.
 	 *  @return	The Token associated with the keyword and the specified string, or NULL if no keyword matches the string.
 	 */
@@ -56,15 +59,15 @@ private:
  	 */
 	char matchCharacterSpecial();
 
-	/** Try to match the next non-whitespace characters in the file to an expression. If an expression is found, read-in the file stream appropriately and return the Token associated with the read-in expression; if an expression is not found, return NULL.
-	 *  @return	The Token associated with the expression, or NULL if an expression was not found.
+	/** Try to match the next non-whitespace characters in the file to an operator. If an operator is found, read-in the file stream appropriately and return the Token associated with the read-in operator; if an operator is not found, return NULL.
+	 *  @return	The Token associated with the operator, or NULL if an operator was not found.
 	 */
-	Token* matchExpression();
+	Token* matchOperator();
 
 	/** Try to match the next non-whitespace characters in the file to an integer or real number by reading in the file stream. If an integer or real number is found, return the appropriate token type; if an integer or real number if not found, return NULL and throw an exception is a partial match was made.
 	 *  @return	The Token associated with the integer or real number, or NULL if an integer or real number was not found.
 	 */
-	Token* matchIntegerOrReal();
+	Token* matchIntegerOrReal(bool isPositive = true);
 
 	/** Try to match the decimal portion of a real number given the specified integer value of the real number; may call matchRealExponent() if an exponent portion of the code is found. If a real number is read-in, the source code stream is incremented appropriately. If a valid real number is not found, an Exception is thrown.
 	 *  @return	The Token associated with the real number. (Note that a NULL return is not possible, but an Exception may be thrown.)
