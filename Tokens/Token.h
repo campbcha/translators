@@ -65,6 +65,11 @@ public:
 	 */
 	Tag getTag();
 
+	/** Returns the Tag string of the Token object.
+	 *  @return	The tag sting of the Token object.
+	 */
+	std::string getTagString();
+
 	/** Prints the Token data for debugging purposes.
 	 */
 	virtual void print();

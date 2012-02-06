@@ -8,38 +8,157 @@ Tester::Tester() {
 
 // NEED to accept Lexical analyzer
 void Tester::run(Lexer testLexer, VerboseType vType) {
-	std::list<Token>::iterator tokenIterator;
-	Token lexerToken;
-	Token storedToken;
+	std::list<int>::iterator tagIterator;
+	std::list<std::string>::iterator stringIterator;
+	int tagVal;
+	int lexerTagVal;
+	std::string stringVal;
+	Token* lexerToken;
+	TokenBoolean* lexerBoolToken;
+	TokenInteger* lexerIntToken;
+	TokenReal* lexerRealToken;
+	TokenString* lexerStringToken;
 
-	std::cout << "------------ Lexer Tester -------------\n";
-	std::cout << "CS480: campbcha, wadec, zoonb, piorkowd\n\n";
-	if ( vType == ALL ) {
-		std::cout << "PRINTING ALL MESSAGES\n\n";
-	} else if ( vType == ERRORS ) {
-		std::cout << "PRINTING ONLY ERRORS\n\n";
-	} else if ( vType == NONE ) {
-		std::cout << "PRINTING NO MESSAGES\n\n";
-	} else {
-		std::cout << "VERBOSE ERROR\n\n";
-	}
-
-	for ( tokenIterator = tokenList.begin(); tokenIterator != tokenList.end(); tokenIterator++ ) {
+	tagIterator = tagList.begin();
+	stringIterator = stringList.begin();
+	while ( tagIterator != tagList.end() ) {
 		try {
-			storedToken = *tokenIterator;
-			lexerToken = *testLexer.scan();
+			tagVal = *tagIterator;
+			stringVal = *stringIterator;
 
-			// Compare tokens
-			if ( storedToken.getTag() != lexerToken.getTag() ) {
-				std::cout << "TOKEN TAG MISMATCH: " << storedToken.getTag() << " " << lexerToken.getTag() << "\n";
+			// Get token from lexer
+			lexerToken = testLexer.scan();
+			lexerTagVal = lexerToken->getTag();
+
+			// Compare token tags
+			if ( tagVal != lexerTagVal ) {
+				if ( vType != NONE ) {
+					std::cout << "TOKEN TAG MISMATCH - Expected: ";
+
+					if ( tagVal != VALUE_BOOLEAN &&
+						 tagVal != VALUE_INTEGER &&
+						 tagVal != VALUE_REAL    &&
+						 tagVal != VALUE_STRING ) {
+						std::cout << stringVal << " -- Actual: " << lexerToken->getTagString() << std::endl;
+					} else {
+						if ( tagVal == VALUE_BOOLEAN ) {
+							std::cout << "boolValue" << " (" << stringVal << ") -- Actual: " << lexerToken->getTagString() << " (";
+						} else if ( tagVal == VALUE_INTEGER ) {
+							std::cout << "intValue" << " (" << stringVal << ") -- Actual: " << lexerToken->getTagString() << " (";
+						} else if ( tagVal == VALUE_REAL ) {
+							std::cout << "realValue" << " (" << stringVal << ") -- Actual: " << lexerToken->getTagString() << " (";
+						} else if ( tagVal == VALUE_STRING ) {
+							std::cout << "stringValue" << " (" << stringVal << ") -- Actual: " << lexerToken->getTagString() << " (";
+						}
+
+						if ( lexerTagVal == VALUE_BOOLEAN ) {
+							lexerBoolToken = (TokenBoolean*) lexerToken;
+							std::cout << lexerBoolToken->getValue();
+						} else if ( lexerTagVal == VALUE_INTEGER ) {
+							lexerIntToken = (TokenInteger*) lexerToken;
+							std::cout << lexerIntToken->getValue();
+						} else if ( lexerTagVal == VALUE_REAL ) {
+							lexerRealToken = (TokenReal*) lexerToken;
+							std::cout << lexerRealToken->getValue();
+						} else if ( lexerTagVal == VALUE_STRING ) {
+							lexerStringToken = (TokenString*) lexerToken;
+							std::cout << *lexerStringToken->getValue();
+						}
+
+						std::cout <<  ")" << std::endl;
+					}
+				}
+				return;
 			} else {
-				std::cout << "TOKEN MATCH: " << storedToken.getTag() << "\n";
+				if ( vType == ALL ) {
+					if ( tagVal != VALUE_BOOLEAN &&
+						 tagVal != VALUE_INTEGER &&
+						 tagVal != VALUE_REAL    &&
+						 tagVal != VALUE_STRING ) {
+						std::cout << "TOKEN MATCH: " << stringVal << std::endl;
+					}
+				}
 			}
+
+			// Check value matches
+			if ( tagVal == VALUE_BOOLEAN ) {
+				lexerBoolToken = (TokenBoolean*) lexerToken;
+
+				if ( stringVal.compare("true") == 0 ) {
+					if ( lexerBoolToken->getValue() == true ) {
+						if ( vType == ALL ) {
+							std::cout << "TOKEN MATCH: " << lexerBoolToken->getTagString() << " (" << lexerBoolToken->getValue() << ")" << std::endl;
+						}
+					} else {
+						if ( vType != NONE ) {
+							std::cout << "BOOL VALUE MISMATCH - Expected: 1 -- Actual: " << lexerBoolToken->getValue() << std::endl;
+							return;
+						}
+					}
+				} else if ( stringVal.compare("false") == 0 ) {
+					if ( lexerBoolToken->getValue() == false ) {
+						if ( vType == ALL ) {
+							std::cout << "TOKEN MATCH: " << lexerBoolToken->getTagString() << " (" << lexerBoolToken->getValue() << ")" << std::endl;
+						}
+					} else {
+						if ( vType != NONE ) {
+							std::cout << "BOOL VALUE MISMATCH - Expected: 0 -- Actual: " << lexerBoolToken->getValue() << std::endl;
+							return;
+						}
+					}
+				}
+			} else if ( tagVal == VALUE_INTEGER ) {
+				lexerIntToken = (TokenInteger*) lexerToken;
+
+				int expectedInt = atoi(stringVal.c_str());
+				if ( expectedInt == lexerIntToken->getValue() ) {
+					if ( vType == ALL ) {
+						std::cout << "TOKEN MATCH: " << lexerIntToken->getTagString() << " (" << lexerIntToken->getValue() << ")" << std::endl;
+					}
+				} else {
+					if ( vType != NONE ) {
+						std::cout << "INT VALUE MISMATCH - Expected: " << expectedInt << " -- Actual: " << lexerIntToken->getValue() << std::endl;
+						return;
+					}
+				}
+			} else if ( tagVal == VALUE_REAL ) {
+				lexerRealToken = (TokenReal*) lexerToken;
+
+				double expectedReal = atof(stringVal.c_str());
+				if ( expectedReal == lexerRealToken->getValue() ) {
+					if ( vType == ALL ) {
+						std::cout << "TOKEN MATCH: " << lexerRealToken->getTagString() << " (" << lexerRealToken->getValue() << ")" << std::endl;
+					}
+				} else {
+					if ( vType != NONE ) {
+						std::cout << "REAL VALUE MISMATCH - Expected: " << expectedReal << " -- Actual: " << lexerRealToken->getValue() << std::endl;
+						return;
+					}
+				}
+			} else if ( tagVal == VALUE_STRING ) {
+				lexerStringToken = (TokenString*) lexerToken;
+
+				if ( stringVal.compare(lexerStringToken->getValue()->c_str()) == 0 ) {
+					if ( vType == ALL ) {
+						std::cout << "TOKEN MATCH: " << lexerStringToken->getTagString() << " (" << *lexerStringToken->getValue() << ")" << std::endl;
+					}
+				} else {
+					if ( vType != NONE ) {
+						std::cout << "STRING VALUE MISMATCH - Expected: " << stringVal << " -- Actual: " << *lexerStringToken->getValue() << std::endl;
+						return;
+					}
+				}
+			}
+
 		} catch ( Exception* e ) {
 			if ( vType != NONE ) {
-				std::cout << "!!EXCEPTION THROWN!! " << *e->getMessage();
+				std::cout << "!!EXCEPTION THROWN!! (" << *e->getMessage() << ") on lexeme: " << stringVal << std::endl;
+				return;
 			}
 		}
+
+		tagIterator++;
+		stringIterator++;
 	}
 }
 
@@ -57,143 +176,105 @@ void Tester::generateTestFile(std::string testFileName) {
 
 	// Generate file of lexemes
 	for ( int i = 0; i < numLexemes; i++ ){
-		int lexemeType = rand() % TAG_MAX;
+		//int lexemeType = rand() % TAG_MAX;
+		int lexemeType = VALUE_STRING;
+
 		std::string lexemeStr;
-		Token tempToken;
-		bool tempBool;
 
 		//generate type of lexeme
 		switch ( lexemeType ) {
 		case FUNCTION_COSINE:
 			lexemeStr = "cos";
-			tempToken = Token(FUNCTION_COSINE);
 			break;
 		case FUNCTION_LOGARITHM:
 			lexemeStr = "logn";
-			tempToken = Token(FUNCTION_LOGARITHM);
 			break;
 		case FUNCTION_PRINTLN:
 			lexemeStr = "println";
-			tempToken = Token(FUNCTION_PRINTLN);
 			break;
 		case FUNCTION_SINE:
 			lexemeStr = "sin";
-			tempToken = Token(FUNCTION_SINE);
 			break;
 		case FUNCTION_TANGENT:
 			lexemeStr = "tan";
-			tempToken = Token(FUNCTION_TANGENT);
 			break;
 		case OPERATOR_ADDITION:
 			lexemeStr = "+";
-			tempToken = Token(OPERATOR_ADDITION);
 			break;
 		case OPERATOR_AND:
 			lexemeStr = "and";
-			tempToken = Token(OPERATOR_AND);
 			break;
 		case OPERATOR_DIVISION:
 			lexemeStr = "/";
-			tempToken = Token(OPERATOR_DIVISION);
 			break;
 		case OPERATOR_EQUALITY:
 			lexemeStr = "=";
-			tempToken = Token(OPERATOR_EQUALITY);
 			break;
 		case OPERATOR_EXPONENTIATION:
 			lexemeStr = "^";
-			tempToken = Token(OPERATOR_EXPONENTIATION);
 			break;
 		case OPERATOR_LESS_THAN:
 			lexemeStr = "<";
-			tempToken = Token(OPERATOR_LESS_THAN);
 			break;
 		case OPERATOR_MODULUS:
 			lexemeStr = "%";
-			tempToken = Token(OPERATOR_MODULUS);
 			break;
 		case OPERATOR_MULTIPLICATION:
 			lexemeStr = "*";
-			tempToken = Token(OPERATOR_MULTIPLICATION);
 			break;
 		case OPERATOR_NOT:
 			lexemeStr = "not";
-			tempToken = Token(OPERATOR_NOT);
 			break;
 		case OPERATOR_OR:
 			lexemeStr = "or";
-			tempToken = Token(OPERATOR_OR);
 			break;
 		case OPERATOR_SUBTRACTION:
 			lexemeStr = "-";
-			tempToken = Token(OPERATOR_SUBTRACTION);
 			break;
 		case PARENTHESIS_CLOSE:
 			lexemeStr = ")";
-			tempToken = Token(PARENTHESIS_CLOSE);
 			break;
 		case PARENTHESIS_OPEN:
 			lexemeStr = "(";
-			tempToken = Token(PARENTHESIS_OPEN);
 			break;
 		case STATEMENT_ASSIGN:
 			lexemeStr = "assign";
-			tempToken = Token(STATEMENT_ASSIGN);
 			break;
 		case STATEMENT_IF:
 			lexemeStr = "if";
-			tempToken = Token(STATEMENT_IF);
 			break;
 		case STATEMENT_IFF:
 			lexemeStr = "iff";
-			tempToken = Token(STATEMENT_IFF);
 			break;
 		case STATEMENT_LET:
 			lexemeStr = "let";
-			tempToken = Token(STATEMENT_LET);
 			break;
 		case STATEMENT_WHILE:
 			lexemeStr = "while";
-			tempToken = Token(STATEMENT_WHILE);
 			break;
 		case TYPE_BOOLEAN:
 			lexemeStr = "bool";
-			tempToken = Token(TYPE_BOOLEAN);
 			break;
 		case TYPE_INTEGER:
 			lexemeStr = "int";
-			tempToken = Token(TYPE_INTEGER);
 			break;
 		case TYPE_REAL:
 			lexemeStr = "real";
-			tempToken = Token(TYPE_REAL);
 			break;
 		case TYPE_STRING:
 			lexemeStr = "string";
-			tempToken = Token(TYPE_STRING);
 			break;
 		case VALUE_BOOLEAN:
-			tempBool = generateBoolean();
-			
-			if ( tempBool == true ) {
-				lexemeStr = "true";
-			} else {
-				lexemeStr = "false";
-			}
-
-			tempToken = TokenBoolean(tempBool);
+			lexemeStr = generateBoolean();
 			break;
 		case VALUE_INTEGER:
 			lexemeStr = generateInteger();
-			tempToken = Token(VALUE_INTEGER);
 			break;
 		case VALUE_REAL:
 			lexemeStr = generateReal();
-			tempToken = Token(VALUE_REAL);
 			break;
 		case VALUE_STRING:
 			lexemeStr = generateString();
-			tempToken = Token(VALUE_STRING);
 			break;
 		default:
 			lexemeStr = "ERROR";
@@ -203,20 +284,21 @@ void Tester::generateTestFile(std::string testFileName) {
 		testFile << lexemeStr;
 		testFile << generateWhiteSpace();
 
-		tokenList.push_back(tempToken);
+		tagList.push_back(lexemeType);
+		stringList.push_back(lexemeStr);
 	}
 	
 	testFile.close();
 }
 
 
-bool Tester::generateBoolean() {
+std::string Tester::generateBoolean() {
 	int boolValue = rand() % 2;
 
 	if ( boolValue == 0 ) {
-		return true;
+		return "true";
 	} else {
-		return false;
+		return "false";
 	}
 }
 
@@ -232,7 +314,7 @@ std::string Tester::generateInteger() {
 		out << "-";
 	}
 
-	// Add integer to stringstream
+	// Add random integer to stringstream
 	out << randInt();
 
 	return out.str();
@@ -242,6 +324,11 @@ std::string Tester::generateInteger() {
 std::string Tester::generateReal() {
 	int randVal; // randVal is used whenever anything needs to be randomly generated
 	std::stringstream out;
+	std::string returnString;
+	double checkVal;
+
+	// Redo target if generated real is out of bounds
+redo:
 
 	// Add +, -, or nothing to stringstream
 	randVal = rand() % 3;
@@ -294,17 +381,22 @@ std::string Tester::generateReal() {
 		out << randInt();
 	}
 
-	return out.str();
+	returnString = out.str();
+	checkVal = atof(returnString.c_str());
+	if ( checkVal == 0 || checkVal == HUGE_VAL || checkVal == -HUGE_VAL) {
+		out.str("");
+		goto redo;
+	}
+	return returnString;
 }
 
 
 std::string Tester::generateString() {
 	std::stringstream out;
-	int stringLength = rand() % (MAX_STRING_LENGTH + 1);
-	//char stringAlphabet[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()-_=+[]{}:;',.<>/?`\\|";
+	int stringLength = rand() % MAX_STRING_LENGTH + 1;
 	char stringAlphabet[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 	for ( int i = 0; i < stringLength; i++ ) {
-		out << stringAlphabet[rand() % sizeof(stringAlphabet)];
+		out << stringAlphabet[(rand() % (sizeof(stringAlphabet) - 1))];
 	}
 
 	// Check if return string is a keyword!
@@ -327,7 +419,7 @@ std::string Tester::generateWhiteSpace() {
 			out << "\t";
 		}
 		else {
-			out << "\n";
+			out << std::endl;
 		}
 	}
 

@@ -20,7 +20,7 @@ Token* Lexer::scan() {
 
 	// Throw exception if file is not good.
 	if ( sourceFile->good() == false ) {
-		throw new Exception("Source file is not 'good' for uknown reason(s). This is bad; I sure hope it never prints. Ever.\n");
+		throw new Exception("Source file is not 'good' for uknown reason(s). This is bad; I sure hope it never prints. Ever.");
 	}
 
 	// Gloss over all whitespace in the file.
@@ -56,7 +56,7 @@ Token* Lexer::scan() {
 	}
 
 	// Throw no token found exception.
-	throw new Exception("No token found matching the input.\n");
+	throw new Exception("No token found matching the input.");
 }
 
 
@@ -160,7 +160,7 @@ char Lexer::matchCharacterSpecial() {
 	case 't':
 		return '\t';
 	default:
-		throw new Exception("Unrecognized character escape sequence. We probably assumed it wasn't important and didn't bother to implement it. Please don't dock us points. :(\n");
+		throw new Exception("Unrecognized character escape sequence. We probably assumed it wasn't important and didn't bother to implement it. Please don't dock us points. :(");
 	}
 }
 
@@ -258,7 +258,7 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 
 	// Check that the next character is a digit.
 	if ( !isdigit( character ) ) {
-		throw new Exception("Expected number after '.'.\n");
+		throw new Exception("Expected number after '.'.");
 	}
 
 	// Initialize the decimal value and length.
@@ -306,7 +306,7 @@ Token* Lexer::matchRealExponent(double baseValue) {
 
 	// Check that the next character is a digit.
 	if ( !isdigit( character ) ) {
-		throw new Exception("Expected number after 'e'.\n");
+		throw new Exception("Expected number after 'e'.");
 	}
 
 	// Initialize the exponent value.
@@ -412,7 +412,7 @@ Token* Lexer::matchStringDelimited() {
 		// Check for the end of the file.
 		if ( sourceFile->eof() == true ) {
 			delete stringValue;
-			throw new Exception("End of file reached before end of string.\n");
+			throw new Exception("End of file reached before end of string.");
 		}
 	}
 

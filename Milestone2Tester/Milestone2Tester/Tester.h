@@ -47,13 +47,13 @@ public:
 	void run(Lexer testLexer, VerboseType vType);
 
 private:
-	std::list<Token> tokenList;
-
+	std::list<int> tagList;
+	std::list<std::string> stringList;
 
 	/**
 	 *
 	 */
-	bool generateBoolean();
+	std::string generateBoolean();
 
 	/** returns the string of a random, positive int
 	 *
