@@ -176,7 +176,8 @@ void Tester::generateTestFile(std::string testFileName) {
 
 	// Generate file of lexemes
 	for ( int i = 0; i < numLexemes; i++ ){
-		int lexemeType = rand() % TAG_MAX;
+		//int lexemeType = rand() % TAG_MAX;
+		int lexemeType = VALUE_STRING;
 		std::string lexemeStr;
 
 		//generate type of lexeme
@@ -392,9 +393,14 @@ redo:
 std::string Tester::generateString() {
 	std::stringstream out;
 	int stringLength = rand() % MAX_STRING_LENGTH + 1;
-	char stringAlphabet[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+	char stringAlphabet[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
 	for ( int i = 0; i < stringLength; i++ ) {
-		out << stringAlphabet[(rand() % (sizeof(stringAlphabet) - 1))];
+		// No numbers for first character
+		if ( i == 0 ) {
+			out << stringAlphabet[rand() % (sizeof(stringAlphabet) - 1 - 10)];
+		} else {
+			out << stringAlphabet[rand() % (sizeof(stringAlphabet) - 1)];
+		}
 	}
 
 	// Check if return string is a keyword!
