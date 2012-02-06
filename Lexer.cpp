@@ -138,6 +138,34 @@ char Lexer::readCharacter() {
 }
 
 
+int Lexer::readDigits() {
+	const int RADIX = 10;
+	char character = '\0';
+	int integerValue = 0xdeadbeef;
+
+	// Check that the next character is a digit.
+	character = sourceFile->peek();
+	if ( !isdigit(character) ) {
+		throw new Exception("Expected digit after call to readDigits().\n");
+	}
+
+	// Initialize the integer value.
+	integerValue = 0;
+	
+	// Read in the digit value.
+	while ( isdigit(character) ) {
+		// Update the integer value based off the read-in value.
+		integerValue = ( integerValue * RADIX ) + ( character - '0' );
+
+		// Read in the next character of the file.
+		character = readCharacter();
+	}
+
+	// Return the read-in integer value.
+	return integerValue;
+}
+
+
 char Lexer::matchCharacterSpecial() {
 	// Read in the next character in the source code file stream.
 	char character = readCharacter();

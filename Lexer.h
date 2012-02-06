@@ -46,6 +46,11 @@ private:
 	 */
 	char readCharacter();
 
+	/** Reads a sequences of digits in from the source code file and return an integer representing that number. Throws an exception if the first character read in is not a digit.
+	 *  @return	An integer representing the seqence of digits read in from the source code file.
+	 */
+	int readDigits();
+
 	/** Try to match the next special (in this case backslash-escaped) character (ex: '\n'). If the special character is found, return the special character as itself (as contrasted to the multiple character read-in from input) and increment the source code file stream appropriately. If no corresponding special character is found, throw an Exception object.
  	 *  @return	The special character associated with the backslash-escape sequence.
  	 */

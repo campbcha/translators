@@ -2,5 +2,6 @@
 *~ # Ignore temporary files (such as those created by text editors)
 
 # Ignore project output
+compiler
 testFile.txt
 tester
