@@ -176,9 +176,7 @@ void Tester::generateTestFile(std::string testFileName) {
 
 	// Generate file of lexemes
 	for ( int i = 0; i < numLexemes; i++ ){
-		//int lexemeType = rand() % TAG_MAX;
-		int lexemeType = VALUE_STRING;
-
+		int lexemeType = rand() % TAG_MAX;
 		std::string lexemeStr;
 
 		//generate type of lexeme

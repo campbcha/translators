@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv) {
 	VerboseType vType = ALL;
-	int numRuns = 5;
+	int numRuns = 10;
 	std::string rootTestFileName = "testFile";
 	
 
@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 	}
 	std::cout << std::endl << std::endl;
 
-	for ( int i = 0 ; i < numRuns; i++ ) {
+	for ( int i = 1 ; i <= numRuns; i++ ) {
 		Tester myTester;
 		std::stringstream out;
 		std::ifstream testFileIn;
@@ -52,6 +52,8 @@ int main(int argc, char** argv) {
 		std::cout << "--------------------------------" << std::endl;
 #ifdef _WIN32
 		Sleep(1000);
+#else
+		sleep(1);
 #endif
 	}
 	return 0;

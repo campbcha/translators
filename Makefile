@@ -43,6 +43,7 @@ compiler: $(OBJS)
 
 clean:
 	rm -f $(OBJS)
+	rm -f testFile*.txt
 #	rm -f $(OBJS) compiler core proftest.out stutest1.out stutest2.out
 #	ls
 
