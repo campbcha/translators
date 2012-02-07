@@ -10,10 +10,8 @@ int main(int argc, char** argv) {
 	VerboseType vType = ALL;
 	int numRuns = 10;
 	std::string rootTestFileName = "testFile";
+	Lexer* testLexer = NULL;
 	
-
-	
-
 	std::cout << "------------ Lexer Tester -------------" << std::endl;
 	std::cout << "CS480: campbcha, wadec, zoonb, piorkowd" << std::endl << std::endl;
 	std::cout << "Running " << numRuns << " tests" << std::endl;
@@ -31,7 +29,6 @@ int main(int argc, char** argv) {
 	for ( int i = 1 ; i <= numRuns; i++ ) {
 		Tester myTester;
 		std::stringstream out;
-		std::ifstream testFileIn;
 
 		std::cout << "--------------------------------" << std::endl;
 		std::cout << "Start test " << i << std::endl;
@@ -40,14 +37,16 @@ int main(int argc, char** argv) {
 		std::string testFileName = out.str();
 		try {
 			myTester.generateTestFile(testFileName);
-
-			testFileIn.open(testFileName.c_str());
-			Lexer testLexer = Lexer(&testFileIn);
+			testLexer = new Lexer(testFileName.c_str());
 			myTester.run(testLexer, vType);
 		} catch (Exception e) {
 			e.print();
 		}
 
+		if ( testLexer != NULL ) {
+			delete testLexer;
+			testLexer = NULL;
+		}
 		std::cout << "Test " << i << " done" << std::endl;
 		std::cout << "--------------------------------" << std::endl;
 #ifdef _WIN32

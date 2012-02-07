@@ -12,6 +12,7 @@
 #include <string>
 
 #include "Exception.h"
+#include "ExceptionLexer.h"
 #include "Tokens/Tokens.h"
 
 /** Lexer class that scans an input file and produces output tokens for the parser.
@@ -20,7 +21,7 @@ class Lexer {
 public:
 	/** Instantiate a new Lexer object that opens and reads input from the specified filepath.
 	 */
-	Lexer(std::ifstream* sourceFile);
+	Lexer(std::string sourceFilePath);
 
 	/** Closes the file object associated with the Lexer.
 	 */
@@ -34,7 +35,10 @@ public:
 
 private:
 	// The source code file from which input is read and tokens are produced from.
-	std::ifstream* sourceFile;
+	std::ifstream sourceFile;
+
+	// The line of the source code file that the lexical analyzer is currently on.
+	int lineNumber;
 
 	/** Compare the specified string object to a keyword within the IBTL. If the strings match, return the Token associated with that keyword; if the strings do not match, return NULL.
 	 *  @return	The Token associated with the keyword and the specified string, or NULL if no keyword matches the string.
@@ -46,20 +50,25 @@ private:
 	 */
 	char readCharacter();
 
+	/** Reads a sequences of digits in from the source code file and return an integer representing that number. Throws an exception if the first character read in is not a digit.
+	 *  @return	An integer representing the seqence of digits read in from the source code file.
+	 */
+	int readDigits();
+
 	/** Try to match the next special (in this case backslash-escaped) character (ex: '\n'). If the special character is found, return the special character as itself (as contrasted to the multiple character read-in from input) and increment the source code file stream appropriately. If no corresponding special character is found, throw an Exception object.
  	 *  @return	The special character associated with the backslash-escape sequence.
  	 */
 	char matchCharacterSpecial();
 
-	/** Try to match the next non-whitespace characters in the file to an expression. If an expression is found, read-in the file stream appropriately and return the Token associated with the read-in expression; if an expression is not found, return NULL.
-	 *  @return	The Token associated with the expression, or NULL if an expression was not found.
+	/** Try to match the next non-whitespace characters in the file to an operator. If an operator is found, read-in the file stream appropriately and return the Token associated with the read-in operator; if an operator is not found, return NULL.
+	 *  @return	The Token associated with the operator, or NULL if an operator was not found.
 	 */
-	Token* matchExpression();
+	Token* matchOperator();
 
 	/** Try to match the next non-whitespace characters in the file to an integer or real number by reading in the file stream. If an integer or real number is found, return the appropriate token type; if an integer or real number if not found, return NULL and throw an exception is a partial match was made.
 	 *  @return	The Token associated with the integer or real number, or NULL if an integer or real number was not found.
 	 */
-	Token* matchIntegerOrReal();
+	Token* matchIntegerOrReal(bool isPositive = true);
 
 	/** Try to match the decimal portion of a real number given the specified integer value of the real number; may call matchRealExponent() if an exponent portion of the code is found. If a real number is read-in, the source code stream is incremented appropriately. If a valid real number is not found, an Exception is thrown.
 	 *  @return	The Token associated with the real number. (Note that a NULL return is not possible, but an Exception may be thrown.)
@@ -87,6 +96,10 @@ private:
 	/** Read-in all whitespace data from the source code file, discading it. When a non-whitespace character is found the function returns void, leaving the aforementioned non-whitespace character to be readable via the peek() function call.
 	 */
 	void skipWhitespace();
+
+	/** Throw an ExceptionLexer object with the specified string for its message.
+	 */
+	void throwException(const std::string message);
 };
 
 #endif // Lexer_H

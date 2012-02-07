@@ -6,8 +6,7 @@ Tester::Tester() {
 	srand(time(NULL));
 }
 
-// NEED to accept Lexical analyzer
-void Tester::run(Lexer testLexer, VerboseType vType) {
+void Tester::run(Lexer* testLexer, VerboseType vType) {
 	std::list<int>::iterator tagIterator;
 	std::list<std::string>::iterator stringIterator;
 	int tagVal;
@@ -27,7 +26,7 @@ void Tester::run(Lexer testLexer, VerboseType vType) {
 			stringVal = *stringIterator;
 
 			// Get token from lexer
-			lexerToken = testLexer.scan();
+			lexerToken = testLexer->scan();
 			lexerTagVal = lexerToken->getTag();
 
 			// Compare token tags
@@ -176,8 +175,7 @@ void Tester::generateTestFile(std::string testFileName) {
 
 	// Generate file of lexemes
 	for ( int i = 0; i < numLexemes; i++ ){
-		//int lexemeType = rand() % TAG_MAX;
-		int lexemeType = VALUE_STRING;
+		int lexemeType = rand() % TAG_MAX;
 		std::string lexemeStr;
 
 		//generate type of lexeme

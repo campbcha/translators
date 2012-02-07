@@ -1,32 +1,35 @@
 CCC = g++
 CCFLAGS = --pedantic-errors -Wall -Werror
 TESTDIR = Milestone2Tester/Milestone2Tester
-OBJS = Main.o \
-       Exception.o \
-       Lexer.o \
-       Token.o \
-       TokenBoolean.o \
-       TokenInteger.o \
-       TokenReal.o \
-       TokenString.o \
-       Tester.o
+OBJS =	Main.o \
+	Exception.o \
+	ExceptionLexer.o \
+	Lexer.o \
+	Token.o \
+	TokenBoolean.o \
+	TokenInteger.o \
+	TokenReal.o \
+	TokenString.o \
+	Tester.o
 SOURCE = $(TESTDIR)/Main.cpp \
-         Exception.cpp \
-         Lexer.cpp \
-         Tokens/Token.cpp \
-         Tokens/TokenBoolean.cpp \
-         Tokens/TokenInteger.cpp \
-         Tokens/TokenReal.cpp \
-         Tokens/TokenString.cpp \
-         $(TESTDIR)/Tester.cpp
+	  Exception.cpp \
+	  ExceptionLexer.cpp \
+	  Lexer.cpp \
+	  Tokens/Token.cpp \
+	  Tokens/TokenBoolean.cpp \
+	  Tokens/TokenInteger.cpp \
+	  Tokens/TokenReal.cpp \
+	  Tokens/TokenString.cpp \
+	  $(TESTDIR)/Tester.cpp
 HEADER = Exception.h \
-         Lexer.h \
-         Tokens/Token.h \
-         Tokens/TokenBoolean.h \
-         Tokens/TokenBoolean.h \
-         Tokens/TokenReal.h \
-         Tokens/TokenString.h \
-         $(TESTDIR)/Tester.h
+	 ExceptionLexer.h \
+	 Lexer.h \
+	 Tokens/Token.h \
+	 Tokens/TokenBoolean.h \
+	 Tokens/TokenBoolean.h \
+	 Tokens/TokenReal.h \
+	 Tokens/TokenString.h \
+	 $(TESTDIR)/Tester.h
 RUNFLAGS = ""
 
 #default: ${OBJS} compiler clean

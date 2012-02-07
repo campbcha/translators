@@ -1,12 +1,15 @@
 #include "TokenBoolean.h"
 
+
 TokenBoolean::TokenBoolean(bool value) : Token(VALUE_BOOLEAN),value(value) {
 	; //Do nothing.
 }
 
+
 bool TokenBoolean::getValue() {
 	return this->value;
 }
+
 
 void TokenBoolean::print() {
 	// Call the parent's print function.

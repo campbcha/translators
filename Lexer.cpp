@@ -1,16 +1,19 @@
 #include "Lexer.h"
 
 
-Lexer::Lexer(std::ifstream* sourceFile) {
+Lexer::Lexer(std::string sourceFilePath) {
 	// Open the source code file for reading.
-	this->sourceFile = sourceFile;
+	this->sourceFile.open(sourceFilePath.c_str());
+
+	// Set the line number count.
+	this->lineNumber = 1;
 }
 
 
 Lexer::~Lexer() {
 	// Close the source code file.
-	if ( sourceFile->is_open() ) {
-		sourceFile->close();
+	if ( sourceFile.is_open() ) {
+		sourceFile.close();
 	}
 }
 
@@ -19,7 +22,7 @@ Token* Lexer::scan() {
 	Token* token = NULL;
 
 	// Throw exception if file is not good.
-	if ( sourceFile->good() == false ) {
+	if ( sourceFile.good() == false ) {
 		throw new Exception("Source file is not 'good' for uknown reason(s). This is bad; I sure hope it never prints. Ever.");
 	}
 
@@ -27,12 +30,12 @@ Token* Lexer::scan() {
 	skipWhitespace();
 
 	// Return NULL if at the end of the source code file.
-	if ( sourceFile->eof() ) {
+	if ( sourceFile.eof() ) {
 		return NULL;
 	}
 
-	// Try to match an expression.
-	token = matchExpression();
+	// Try to match an operator.
+	token = matchOperator();
 	if ( token != NULL ) {
 		return token;
 	}
@@ -131,10 +134,38 @@ Token* Lexer::compareKeyword(std::string* stringValue) {
 
 char Lexer::readCharacter() {
 	// Move the file pointer one character over.
-	sourceFile->get();
+	sourceFile.get();
 
 	// Return the character that the file pointer is now pointing to.
-	return sourceFile->peek();
+	return sourceFile.peek();
+}
+
+
+int Lexer::readDigits() {
+	const int RADIX = 10;
+	char character = '\0';
+	int integerValue = 0xdeadbeef;
+
+	// Check that the next character is a digit.
+	character = sourceFile.peek();
+	if ( !isdigit(character) ) {
+		throw new Exception("Expected digit after call to readDigits().\n");
+	}
+
+	// Initialize the integer value.
+	integerValue = 0;
+	
+	// Read in the digit value.
+	while ( isdigit(character) ) {
+		// Update the integer value based off the read-in value.
+		integerValue = ( integerValue * RADIX ) + ( character - '0' );
+
+		// Read in the next character of the file.
+		character = readCharacter();
+	}
+
+	// Return the read-in integer value.
+	return integerValue;
 }
 
 
@@ -165,17 +196,25 @@ char Lexer::matchCharacterSpecial() {
 }
 
 
-Token* Lexer::matchExpression() {
+Token* Lexer::matchOperator() {
 	// Peek at the next character in the source code file stream.
-	char character = sourceFile->peek();
+	char character = sourceFile.peek();
 
-	// Try to match the read-in character to an expression.
+	// Try to match the read-in character to an operator.
 	switch ( character ) {
 	case '+':
-		readCharacter();
+		character = readCharacter();
+		// Return a positive number (integer or real) or an addition operator.
+		if ( isdigit(character) ) {
+			return matchIntegerOrReal();
+		}
 		return new Token(OPERATOR_ADDITION);
 	case '-':
-		readCharacter();
+		character = readCharacter();
+		// Return a negative number (integer or real) or an addition operator.
+		if ( isdigit(character) ) {
+			return matchIntegerOrReal(false);
+		}
 		return new Token(OPERATOR_SUBTRACTION);
 	case '*':
 		readCharacter();
@@ -201,44 +240,43 @@ Token* Lexer::matchExpression() {
 	case ')':
 		readCharacter();
 		return new Token(PARENTHESIS_CLOSE);
-	default: // Next character is not an expression character.
+	default: // Next character is not an operator character.
 		return NULL;
 	}
 }
 
 
-Token* Lexer::matchIntegerOrReal() {
-	// Peek at the next character in the source code file stream.
-	char character = sourceFile->peek();
-
+Token* Lexer::matchIntegerOrReal(bool isPositive) {
 	// Integer value to store the digit in.
 	int integerValue = 0xdeadbeef;
 
-	// Try to match the read-in character to an integer or real number.
+	// Peek at the next character in the source code file stream.
+	char character = sourceFile.peek();
+
+	// Check if the next character in the source code file is a digit.
 	if ( !isdigit( character ) ) {
 		return NULL;
 	}
 
-	// Initialize the integer value of the number.
-	integerValue = 0;
+	// Read in the digits of the number.
+	integerValue = readDigits();
 
-	// Calculate the intger value.
-	while ( isdigit(character) ) {
-		// Set the current integer value.
-		integerValue = ( integerValue * 10 ) + ( character - '0' );
+	// Set the sign of the number.
+	if ( isPositive == false ) {
+		integerValue *= -1;
+	}
 
-		// Check the next character.
-		character = readCharacter();
+	// Peek at the next character in the source code file stream.
+	character = sourceFile.peek();
 
-		// Check for a real number decimal.
-		if ( character == '.' ) {
-			return matchRealDecimal(integerValue);
-		}
-		
-		// Check for a real number exponent.
-		if ( character == 'E' ) {
-			return matchRealExponent(integerValue);
-		}
+	// Check for a real number decimal.
+	if ( character == '.' ) {
+		return matchRealDecimal(integerValue);
+	}
+
+	// Check for a real number exponent.
+	if ( character == 'e' ) {
+		return matchRealExponent(integerValue);
 	}
 
 	// Return the TokenIneger with the read-in integer value.
@@ -247,6 +285,8 @@ Token* Lexer::matchIntegerOrReal() {
 
 
 Token* Lexer::matchRealDecimal(int integerValue) {
+	// The base of the number system.
+	const int RADIX = 10;
 	// The next character in the file stream.
 	char character = '\0';
 	double realValue = 0xdeadbeef;
@@ -256,11 +296,6 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 	// Read in the next character (moving past the '.').
 	character = readCharacter();
 
-	// Check that the next character is a digit.
-	if ( !isdigit( character ) ) {
-		throw new Exception("Expected number after '.'.");
-	}
-
 	// Initialize the decimal value and length.
 	decimalLength = 0;
 	decimalValue = 0;
@@ -268,7 +303,7 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 	// Calculate the decimal value.
 	while( isdigit( character ) ) {
 		// Set the current decimal value.
-		decimalValue = ( decimalValue * 10 ) + ( character - '0' );
+		decimalValue = ( decimalValue * RADIX ) + ( character - '0' );
 
 		// Increment the decimal length.
 		decimalLength++;
@@ -279,10 +314,15 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 
 	// Calculate the real number value.
 	// CHANGED pow(int, int) to pow(float, int) for compatibility w/Win
-	realValue = integerValue + ( decimalValue / ((double)( pow(10., decimalLength) )) );
+	if ( decimalLength == 0 ) {
+		realValue = (double)integerValue;
+	}
+	else {
+		realValue = integerValue + ( decimalValue / ((double)( pow(((double)RADIX), decimalLength) )) );
+	}
 
 	// Check to see if an exponent exists.
-	if ( character == 'E' ) {
+	if ( character == 'e' ) {
 		return matchRealExponent(realValue);
 	}
 
@@ -297,32 +337,41 @@ Token* Lexer::matchRealExponent(int integerValue) {
 }
 
 Token* Lexer::matchRealExponent(double baseValue) {
+	// The base of the number system.
+	const int RADIX = 10;
 	// The next character in the file stream.
 	char character = '\0';
 	double exponentValue = 0xdeadbeef;
+	bool isPositive = true;
 
 	// Read in the next character (moving past the 'e').
 	character = readCharacter();
 
-	// Check that the next character is a digit.
-	if ( !isdigit( character ) ) {
-		throw new Exception("Expected number after 'e'.");
+	// Check for an exponent sign.
+	if ( character == '+' ) {
+		isPositive = true;
+		character = readCharacter();
 	}
-
-	// Initialize the exponent value.
-	exponentValue = 0;
-
-	// Calculate the exponent.
-	while( isdigit( character ) ) {
-		// Set the current exponent value.
-		exponentValue = ( exponentValue * 10 ) + ( character - '0' );
-
-		// Read in the next character.
+	else if ( character == '-' ) {
+		isPositive = false;
 		character = readCharacter();
 	}
 
+	// Check that the next character is a digit.
+	if ( !isdigit( character ) ) {
+		throw new Exception("Expected number after 'e[+-]?'.");
+	}
+
+	// Initialize the exponent value.
+	exponentValue = readDigits();
+
+	// Set the sign of the exponent value.
+	if ( isPositive == false ) {
+		exponentValue *= -1;
+	}
+
 	// Multiply the real number by the exponent.
-	baseValue *= pow(10, exponentValue);
+	baseValue *= pow(RADIX, exponentValue);
 
 	// Return the TokenReal with the complete real number value.
 	return new TokenReal(baseValue);
@@ -338,7 +387,7 @@ Token* Lexer::matchKeywordOrStringNonDelimited() {
 	char character = '\0';
 
 	// Peek at the next character in the source code file.
-	character = sourceFile->peek();
+	character = sourceFile.peek();
 
 	// Check if the next character begins a keyword or string.
 	if ( !isalpha( character ) && character != '_' ) {
@@ -380,7 +429,7 @@ Token* Lexer::matchStringDelimited() {
 	char character = '\0';
 
 	// Peek at the next character in the source code file.
-	character = sourceFile->peek();
+	character = sourceFile.peek();
 
 	// Check that the next character matches a possible string delimiter.
 	if ( character != '\'' && character != '"' ) {
@@ -410,7 +459,7 @@ Token* Lexer::matchStringDelimited() {
 		character = readCharacter();
 
 		// Check for the end of the file.
-		if ( sourceFile->eof() == true ) {
+		if ( sourceFile.eof() == true ) {
 			delete stringValue;
 			throw new Exception("End of file reached before end of string.");
 		}
@@ -426,10 +475,22 @@ Token* Lexer::matchStringDelimited() {
 
 void Lexer::skipWhitespace() {
 	// Peek at the next character in the source code file stream.
-	char character = sourceFile->peek();
+	char character = sourceFile.peek();
 
 	// Continuously read-in the file until a non-whitespace character is found.
 	while ( character == ' ' || character == '\n' || character == '\t' ) {
+		// Increment the line number if applicable.
+		if ( character == '\n' ) {
+			this->lineNumber++;
+		}
+
+		// Read in the next character.
 		character = readCharacter();
 	}
+}
+
+
+void Lexer::throwException(const std::string message) {
+	// Throw the exception.
+	throw new ExceptionLexer(message, this->lineNumber);
 }

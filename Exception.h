@@ -18,7 +18,7 @@ public:
 
 	/** Prints the Exception message to cerr for debugging purposes.
 	 */
-	void print();
+	virtual void print();
 
 	/**
 	 */
