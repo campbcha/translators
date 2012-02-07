@@ -488,3 +488,9 @@ void Lexer::skipWhitespace() {
 		character = readCharacter();
 	}
 }
+
+
+void Lexer::throwException(const std::string message) {
+	// Throw the exception.
+	throw new ExceptionLexer(message, this->lineNumber);
+}

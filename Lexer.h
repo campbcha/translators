@@ -12,6 +12,7 @@
 #include <string>
 
 #include "Exception.h"
+#include "ExceptionLexer.h"
 #include "Tokens/Tokens.h"
 
 /** Lexer class that scans an input file and produces output tokens for the parser.
@@ -95,6 +96,10 @@ private:
 	/** Read-in all whitespace data from the source code file, discading it. When a non-whitespace character is found the function returns void, leaving the aforementioned non-whitespace character to be readable via the peek() function call.
 	 */
 	void skipWhitespace();
+
+	/** Throw an ExceptionLexer object with the specified string for its message.
+	 */
+	void throwException(const std::string message);
 };
 
 #endif // Lexer_H

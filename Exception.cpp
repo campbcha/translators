@@ -13,8 +13,10 @@ Exception::~Exception() {
 
 
 void Exception::print() {
+	// Print the exception header.
+	std::cerr << "***** EXCEPTION! ***************\n";
 	// Print the error message to stderr.
-	std::cerr << this->message->c_str();
+	std::cerr << "\tMessage: " << this->message->c_str() << "\n";
 }
 
 
