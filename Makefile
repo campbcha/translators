@@ -32,8 +32,8 @@ HEADER = Exception.h \
 	 $(TESTDIR)/Tester.h
 RUNFLAGS = ""
 
-#default: ${OBJS} compiler clean
-default : $(OBJS) tester clean
+default: ${OBJS} compiler clean
+#default : $(OBJS) tester clean
 
 ${OBJS}: ${SOURCE} ${HEADER}
 	$(CCC) $(CCFLAGS) -c $(SOURCE)
@@ -45,23 +45,28 @@ compiler: $(OBJS)
 	$(CCC) $(CCFLAGS) -o compiler $(OBJS)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) stutest.out proftest.out
 	rm -f testFile*.txt
 #	rm -f $(OBJS) compiler core proftest.out stutest1.out stutest2.out
 #	ls
 
 stutest.out: compiler
-	cat stutest1.in
-	-compiler $(RUNFLAGS) stutest1.in > stutest1.out
-	cat stutest1.out
+	./compiler > stutest.out
+	cat stutest.out
+#	cat stutest1.in
+#	-compiler $(RUNFLAGS) stutest1.in > stutest1.out
+#	cat stutest1.out
 # Notice the next line. The `-' says to ignore the return code. This
 # is a way to have multiple tests of errors that cause non-zero return
 # codes.
-	cat stutest2.in
-	-compiler stutest2.in > stutest2.out
-	cat stutest2.out
+#	cat stutest2.in
+#	-compiler stutest2.in > stutest2.out
+#	cat stutest2.out
 
 proftest.out: compiler
-	cat $(PROFTEST)
-	compiler $(PROFTEST) > proftest.out
+	@echo "Warning: Using automatically-generated testcases."
+	./compiler > proftest.out
 	cat proftest.out
+#	cat $(PROFTEST)
+#	compiler $(PROFTEST) > proftest.out
+#	cat proftest.out
