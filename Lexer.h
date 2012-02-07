@@ -73,7 +73,7 @@ private:
 	/** Try to match the decimal portion of a real number given the specified integer value of the real number; may call matchRealExponent() if an exponent portion of the code is found. If a real number is read-in, the source code stream is incremented appropriately. If a valid real number is not found, an Exception is thrown.
 	 *  @return	The Token associated with the real number. (Note that a NULL return is not possible, but an Exception may be thrown.)
 	 */
-	Token* matchRealDecimal(int integerValue);
+	Token* matchRealDecimal(int integerValue, bool isPositive = true);
 
 	/** Try to match the exponent portion of a real number given the specified integer and decimal values of the real number. If the exponent is successfully read-in, the source code stream in incremented appropriately. If a valid exponent is not found, an Exception object is thrown.
 	 *  @return	The Token associated with the real number. (Note that a NULL return is not possible, but an Exception may be thrown.)

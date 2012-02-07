@@ -284,7 +284,7 @@ Token* Lexer::matchIntegerOrReal(bool isPositive) {
 }
 
 
-Token* Lexer::matchRealDecimal(int integerValue) {
+Token* Lexer::matchRealDecimal(int integerValue, bool isPositive) {
 	// The base of the number system.
 	const int RADIX = 10;
 	// The next character in the file stream.
@@ -318,7 +318,13 @@ Token* Lexer::matchRealDecimal(int integerValue) {
 		realValue = (double)integerValue;
 	}
 	else {
-		realValue = integerValue + ( decimalValue / ((double)( pow(((double)RADIX), decimalLength) )) );
+		decimalValue = decimalValue / ((double)(pow(((double)RADIX), decimalLength)));
+		if ( isPositive == true ) {
+			realValue = integerValue + decimalValue;
+		}
+		else {
+			realValue = integerValue - decimalValue;
+		}
 	}
 
 	// Check to see if an exponent exists.
