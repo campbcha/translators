@@ -31,7 +31,7 @@ int main( int argc, char** argv ) {
 	// Analyze parameters
 	if ( argc <= 1 ) {
 		std::cout << "Need at least one file name." << std::endl;
-		printHelp;
+		printHelp();
 		return 0;
 	}
 

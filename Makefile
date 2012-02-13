@@ -1,7 +1,6 @@
 CCC = g++
 CCFLAGS = --pedantic-errors -Wall -Werror
-TESTDIR = Milestone2Tester/Milestone2Tester
-OBJS =	Main.o \
+OBJS =	main.o \
 	Exception.o \
 	ExceptionLexer.o \
 	Lexer.o \
@@ -9,18 +8,16 @@ OBJS =	Main.o \
 	TokenBoolean.o \
 	TokenInteger.o \
 	TokenReal.o \
-	TokenString.o \
-	Tester.o
-SOURCE = $(TESTDIR)/Main.cpp \
-	  Exception.cpp \
-	  ExceptionLexer.cpp \
-	  Lexer.cpp \
-	  Tokens/Token.cpp \
-	  Tokens/TokenBoolean.cpp \
-	  Tokens/TokenInteger.cpp \
-	  Tokens/TokenReal.cpp \
-	  Tokens/TokenString.cpp \
-	  $(TESTDIR)/Tester.cpp
+	TokenString.o
+SOURCE = main.cpp \
+	 Exception.cpp \
+	 ExceptionLexer.cpp \
+	 Lexer.cpp \
+	 Tokens/Token.cpp \
+	 Tokens/TokenBoolean.cpp \
+	 Tokens/TokenInteger.cpp \
+	 Tokens/TokenReal.cpp \
+	 Tokens/TokenString.cpp
 HEADER = Exception.h \
 	 ExceptionLexer.h \
 	 Lexer.h \
@@ -28,45 +25,32 @@ HEADER = Exception.h \
 	 Tokens/TokenBoolean.h \
 	 Tokens/TokenBoolean.h \
 	 Tokens/TokenReal.h \
-	 Tokens/TokenString.h \
-	 $(TESTDIR)/Tester.h
+	 Tokens/TokenString.h
 RUNFLAGS = ""
 
 default: ${OBJS} compiler clean
-#default : $(OBJS) tester clean
 
 ${OBJS}: ${SOURCE} ${HEADER}
 	$(CCC) $(CCFLAGS) -c $(SOURCE)
-
-tester: $(OBJS)
-	$(CCC) $(CCFLAGS) -o tester $(OBJS)
 
 compiler: $(OBJS)
 	$(CCC) $(CCFLAGS) -o compiler $(OBJS)
 
 clean:
 	rm -f $(OBJS) stutest.out proftest.out
-	rm -f testFile*.txt
-#	rm -f $(OBJS) compiler core proftest.out stutest1.out stutest2.out
-#	ls
 
 stutest.out: compiler
-	./compiler > stutest.out
-	cat stutest.out
-#	cat stutest1.in
-#	-compiler $(RUNFLAGS) stutest1.in > stutest1.out
-#	cat stutest1.out
+	cat stutest1.in
+	-compiler $(RUNFLAGS) stutest1.in > stutest1.out
+	cat stutest1.out
 # Notice the next line. The `-' says to ignore the return code. This
 # is a way to have multiple tests of errors that cause non-zero return
 # codes.
-#	cat stutest2.in
-#	-compiler stutest2.in > stutest2.out
-#	cat stutest2.out
+	cat stutest2.in
+	-compiler stutest2.in > stutest2.out
+	cat stutest2.out
 
 proftest.out: compiler
-	@echo "Warning: Using automatically-generated testcases."
-	./compiler > proftest.out
+	cat $(PROFTEST)
+	compiler $(PROFTEST) > proftest.out
 	cat proftest.out
-#	cat $(PROFTEST)
-#	compiler $(PROFTEST) > proftest.out
-#	cat proftest.out
