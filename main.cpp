@@ -23,6 +23,7 @@ int main( int argc, char** argv ) {
 	VerboseType vType = ALL;
 	std::list<std::string> fileList;
 	std::list<std::string>::iterator fileListIterator;
+	const int STRING_EQUALITY = 0;
 	int numRuns = 0;
 	
 	std::cout << "------------ IBTL Translator -------------" << std::endl;
@@ -38,25 +39,25 @@ int main( int argc, char** argv ) {
 	for ( int i = 1; i < argc; i++ ) {
 		std::string argument = argv[i];
 
-		if ( argument.compare("--help") == 0
-			 || argument.compare("-h") == 0 ) {
+		if ( argument.compare("--help") == STRING_EQUALITY
+			 || argument.compare("-h") == STRING_EQUALITY ) {
 			// Print help and exit
 			printHelp();
 			return 0;
-		} else if ( argument.compare("-v") == 0
-			 || argument.compare("--verbose") == 0 ) {
+		} else if ( argument.compare("-v") == STRING_EQUALITY
+			 || argument.compare("--verbose") == STRING_EQUALITY ) {
 			// Assign verbose to correct value
 			std::string vTypeArg = argv[++i];
 
-			if ( vTypeArg.compare("none") == 0 ) {
+			if ( vTypeArg.compare("none") == STRING_EQUALITY ) {
 				vType = NONE;
-			} else if ( vTypeArg.compare("errors") == 0 ) {
+			} else if ( vTypeArg.compare("errors") == STRING_EQUALITY ) {
 				vType = ERRORS;
-			} else if ( vTypeArg.compare("warnings") == 0 ) {
+			} else if ( vTypeArg.compare("warnings") == STRING_EQUALITY ) {
 				vType = WARNINGS;
-			} else if ( vTypeArg.compare("all") == 0 ) {
+			} else if ( vTypeArg.compare("all") == STRING_EQUALITY ) {
 				vType = ALL;
-			} else if ( vTypeArg.compare("debug") == 0 ) {
+			} else if ( vTypeArg.compare("debug") == STRING_EQUALITY ) {
 				vType = DEBUG;
 			} else {
 				std::cout << "Invalid verbose type. See valid options below." << std::endl;
