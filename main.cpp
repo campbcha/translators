@@ -26,7 +26,7 @@ int main( int argc, char** argv ) {
 	int numRuns = 0;
 	
 	std::cout << "------------ IBTL Translator -------------" << std::endl;
-	std::cout << "CS480: campbcha, wadec, zoonb, piorkowd" << std::endl << std::endl;
+	std::cout << "CS480: campbcha, clinew, zoonb, piorkowd" << std::endl << std::endl;
 
 	// Analyze parameters
 	if ( argc <= 1 ) {
