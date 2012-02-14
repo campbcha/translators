@@ -54,8 +54,6 @@ enum Tag {
  */
 class Token {
 public:
-	Token() {}
-
 	/** Construct a new Token object with specified Tag.
 	 */
 	Token(Tag tag);
