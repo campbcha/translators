@@ -1,7 +1,15 @@
 CCC = g++
 CCFLAGS = --pedantic-errors -Wall -Werror
 
-FILES = main ../../Exception ParseNode ParseTree
+FILES = main \
+	../../Exception \
+	ParseNode \
+	ParseNode/Terminal \
+	ParseNode/Nonterminal \
+	ParseNode/Nonterminal/F \
+	ParseNode/Nonterminal/T \
+	ParseNode/Nonterminal/S \
+	ParseTree
 OUTPUT = tester
 OBJS :=
 
@@ -22,7 +30,7 @@ done:
 
 ${OUTPUT}:
 	@echo " Linking ${OUTPUT}."
-	@$(CCC) $(CCFLAGS) -o ${OUTPUT} main.o Exception.o ParseNode.o ParseTree.o
+	@$(CCC) $(CCFLAGS) -o ${OUTPUT} main.o Exception.o ParseNode.o ParseTree.o Terminal.o Nonterminal.o F.o T.o S.o
 
 
 clean:

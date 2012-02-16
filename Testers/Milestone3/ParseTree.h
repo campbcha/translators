@@ -11,7 +11,7 @@ public:
 	void print();
 
 private:
-	ParseNode* parseNode;
+	ParseNode* rootNode;
 };
 
 #endif // ParseTree_H

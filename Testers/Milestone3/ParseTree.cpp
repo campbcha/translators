@@ -2,11 +2,17 @@
 
 
 ParseTree::ParseTree() {
-	parseNode = NULL;
+	this->rootNode = NULL;
 	throw new Exception("Function not yet implemented.");
 }
 
 
 void ParseTree::print() {
-	throw new Exception("Function not yet implemented.");
+	// Validate preconditions.
+	if ( rootNode == NULL ) {
+		throw new Exception("Root node was NULL.");
+	}
+
+	// Call print on the root node.
+	rootNode->print();
 }
