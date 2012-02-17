@@ -30,6 +30,10 @@ namespace Ibtl {
 	 */
 	std::string* randomString();
 
+	/** Returns a Token that represents a random atom of the IBTL.
+	 */
+	Token* randomTokenAtom();
+
 	/** Returns a TokenBoolean with a random value.
 	 */
 	TokenBoolean* randomTokenBoolean();

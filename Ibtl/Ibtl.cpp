@@ -77,6 +77,84 @@ std::string* Ibtl::randomString() {
 }
 
 
+Token* Ibtl::randomTokenAtom() {
+	const char* functionName = "Ibtl::randomTokenAtom()";
+
+	int number = rand() % 5;
+	// Random value token.
+	if ( number == 0 ) {
+		return randomTokenBoolean();
+	}
+	if ( number == 1 ) {
+		return randomTokenReal();
+	}
+	if ( number == 2 ) {
+		return randomTokenInteger();
+	}
+	if ( number == 3 ) {
+		return randomTokenString();
+	}
+	
+	// Random other token.
+	number = rand() % 25;
+	switch (number) {
+	case(0):
+		return new Token(FUNCTION_COSINE);
+	case(1):
+		return new Token(FUNCTION_LOGARITHM);
+	case(2):
+		return new Token(FUNCTION_PRINTLN);
+	case(3):
+		return new Token(FUNCTION_SINE);
+	case(4):
+		return new Token(FUNCTION_TANGENT);
+	case(5):
+		return new Token(OPERATOR_ADDITION);
+	case(6):
+		return new Token(OPERATOR_AND);
+	case(7):
+		return new Token(OPERATOR_DIVISION);
+	case(8):
+		return new Token(OPERATOR_EQUALITY);
+	case(9):
+		return new Token(OPERATOR_EXPONENTIATION);
+	case(10):
+		return new Token(OPERATOR_LESS_THAN);
+	case(11):
+		return new Token(OPERATOR_MODULUS);
+	case(12):
+		return new Token(OPERATOR_MULTIPLICATION);
+	case(13):
+		return new Token(OPERATOR_NOT);
+	case(14):
+		return new Token(OPERATOR_OR);
+	case(15):
+		return new Token(OPERATOR_SUBTRACTION);
+	case(16):
+		return new Token(STATEMENT_ASSIGN);
+	case(17):
+		return new Token(STATEMENT_IF);
+	case(18):
+		return new Token(STATEMENT_IFF);
+	case(19):
+		return new Token(STATEMENT_LET);
+	case(20):
+		return new Token(STATEMENT_WHILE);
+	case(21):
+		return new Token(TYPE_BOOLEAN);
+	case(22):
+		return new Token(TYPE_INTEGER);
+	case(23):
+		return new Token(TYPE_REAL);
+	case(24):
+		return new Token(TYPE_STRING);
+	default:
+		break;
+	}
+
+	throw new Exception("Unable to generate random Token.", functionName);
+}
+
 TokenBoolean* Ibtl::randomTokenBoolean() {
 	return new TokenBoolean(Ibtl::randomBoolean());
 }
