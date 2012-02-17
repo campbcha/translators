@@ -3,6 +3,7 @@ CCFLAGS = --pedantic-errors -Wall -Werror
 OBJS =	main.o \
 	Exception.o \
 	ExceptionLexer.o \
+	Ibtl.o \
 	Lexer.o \
 	Token.o \
 	TokenBoolean.o \
@@ -12,6 +13,7 @@ OBJS =	main.o \
 SOURCE = main.cpp \
 	 Exception.cpp \
 	 ExceptionLexer.cpp \
+	 Ibtl/Ibtl.cpp \
 	 Lexer.cpp \
 	 Tokens/Token.cpp \
 	 Tokens/TokenBoolean.cpp \
@@ -20,6 +22,7 @@ SOURCE = main.cpp \
 	 Tokens/TokenString.cpp
 HEADER = Exception.h \
 	 ExceptionLexer.h \
+	 Ibtl/Ibtl.h \
 	 Lexer.h \
 	 Tokens/Token.h \
 	 Tokens/TokenBoolean.h \

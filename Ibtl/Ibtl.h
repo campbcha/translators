@@ -1,26 +1,32 @@
 /** Namespace to hold various utilities for the IBTL compiler.
  */
 
+#ifndef Ibtl_H
+#define Ibtl_H
+
+#include <limits.h>
+#include <stdlib.h>
+
 #include "../Tokens/Tokens.h"
 
 namespace Ibtl {
 	// The alphabet for the IBTL language.
-	char stringAlphabet[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
+	extern const char stringAlphabet[];
 
 	/** Returns a random boolean.
 	 */
 	bool randomBoolean();
 
-	/** Returns a random double.
+	/** Returns a random real (as a double).
 	 */
-	double randomDouble();
+	double randomReal();
 
 	/** Returns a random integer.
 	 */
 	int randomInteger();
 
-	/** Allocates and returns a pointer to a randomly-generated string in the
-	 *  IBTL.
+	/** Allocates and returns a pointer to a randomly-generated string
+	 *  in the IBTL.
 	 */
 	std::string* randomString();
 
@@ -40,3 +46,5 @@ namespace Ibtl {
 	 */
 	TokenString* randomTokenString();
 }
+
+#endif //Ibtl_H
