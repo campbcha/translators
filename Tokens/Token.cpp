@@ -1,12 +1,15 @@
 #include "Token.h"
 
+
 Token::Token(Tag tag) : tag(tag) {
 	; //Do nothing.
 }
 
+
 Tag Token::getTag() {
 	return this->tag;
 }
+
 
 std::string Token::getTagString() {
 	switch(tag) {
@@ -212,4 +215,11 @@ void Token::print() {
 			break;
 	}
 	std::cout << "\n";
+}
+
+
+void Token::writeLexeme(std::ostream& ostream) {
+	//const char* function_name = "Token::writeLexeme()";
+
+	ostream << this->getTagString().c_str();
 }

@@ -24,6 +24,10 @@ public:
 	 */
 	void print();
 
+	/** Writes the value of the string to the specified output stream.
+	 */
+	virtual void writeLexeme(std::ostream& ostream);
+
 private:
 	// A string object representing the value of a string in the input code.
 	std::string* value;

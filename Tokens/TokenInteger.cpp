@@ -1,12 +1,15 @@
 #include "TokenInteger.h"
 
+
 TokenInteger::TokenInteger(int value) : Token(VALUE_INTEGER),value(value) {
 	; //Do nothing.
 }
 
+
 int TokenInteger::getValue() {
 	return this->value;
 }
+
 
 void TokenInteger::print() {
 	// Call the parent print function.
@@ -16,3 +19,7 @@ void TokenInteger::print() {
 	std::cout << this->value;
 }
 
+
+void TokenInteger::writeLexeme(std::ostream& ostream) {
+	ostream << this->value;
+}

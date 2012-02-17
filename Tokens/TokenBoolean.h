@@ -22,6 +22,11 @@ public:
 	 */
 	void print();
 
+	/** Write the boolean value of either true or false to the specified
+	 *  output stream.
+	 */
+	virtual void writeLexeme(std::ostream& ostream);
+
 private:
 	// A boolean representing the value of a boolean in the input code.
 	bool value;

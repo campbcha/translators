@@ -1,12 +1,15 @@
 #include "TokenString.h"
 
+
 TokenString::TokenString(std::string* value) : Token(VALUE_STRING),value(value) {
 	; // Do nothing.
 }
 
+
 const std::string* TokenString::getValue() {
 	return this->value;
 }
+
 
 void TokenString::print() {
 	// Call the parent's print function.
@@ -16,3 +19,7 @@ void TokenString::print() {
 	std::cout << this->value->c_str();
 }
 
+
+void TokenString::writeLexeme(std::ostream& ostream) {
+	ostream << this->value->c_str();
+}

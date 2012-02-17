@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "../Exception.h"
+
 /** Tokens to pass to the Lexical Analyzer
  */
 
@@ -71,6 +73,13 @@ public:
 	/** Prints the Token data for debugging purposes.
 	 */
 	virtual void print();
+
+	/** Writes the value of the Token object as its lexeme may appear in source
+	 *  code to the specified ostream. In this case, the lexeme is approximate
+	 *  as it is ambiguous how certain values, such as a real, may have been
+	 *  specified.
+	 */
+	virtual void writeLexeme(std::ostream& ostream);
 
 protected:
 	// Specifies the type of Token for parser reference.
