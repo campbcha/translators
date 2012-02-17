@@ -1,11 +1,14 @@
 #ifndef F_H
 #define F_H
 
-#include "../Nonterminal.h"
+#include <iostream>
+
+#include "../../ParseNodes.h"
 
 #include "../../../../Exception.h"
 
 class F : public Nonterminal {
+public:
 	F();
 
 	virtual void print();

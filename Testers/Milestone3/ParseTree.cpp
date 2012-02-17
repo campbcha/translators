@@ -2,17 +2,23 @@
 
 
 ParseTree::ParseTree() {
-	this->rootNode = NULL;
-	throw new Exception("Function not yet implemented.");
+	// Initialize the random number generator.
+	srand( time(NULL) );
+
+	// Initialize the root node.
+	this->rootNode = new F();
 }
 
 
 void ParseTree::print() {
+	const char* function_name = "ParseTree::print()";
+
 	// Validate preconditions.
 	if ( rootNode == NULL ) {
-		throw new Exception("Root node was NULL.");
+		throw new Exception("Root node was NULL.", function_name);
 	}
 
-	// Call print on the root node.
+	// Print the parse tree recursively.
 	rootNode->print();
+	std::cout << "\n";
 }

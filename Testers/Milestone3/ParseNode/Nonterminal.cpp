@@ -2,5 +2,7 @@
 
 
 Nonterminal::Nonterminal() {
-	throw new Exception("Function not yet implemented.");
+	//const char* function_name = "Nonterminal::Nonterminal";
+
+	//std::cerr << function_name << "\n";
 }

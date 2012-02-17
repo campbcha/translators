@@ -2,10 +2,24 @@
 
 
 F::F() {
-	throw new Exception("Function not yet implemented.");
+	// Randomly descend into grammar productions.
+	int number = (rand() % 100 ) + 1;
+	if ( number < 95 ) {
+		parseNodes.push_back(new T());
+		parseNodes.push_back(new F());
+	}
+	else {
+		; // Do nothing.
+	}
 }
 
 
 void F::print() {
-	throw new Exception("Function not yet implemented.");
+	//const char* function_name = "F::print()";
+	
+	// Call print on each child node.
+	ParseNode::print();
+
+	// Print this node.
+	std::cout << " F ";
 }

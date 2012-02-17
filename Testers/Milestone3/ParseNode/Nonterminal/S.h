@@ -1,11 +1,13 @@
 #ifndef S_H
 #define S_H
 
-#include "../Nonterminal.h"
+#include "../Nonterminals.h"
 
 #include "../../../../Exception.h"
+#include "../../../../Tokens/Tokens.h"
 
 class S : public Nonterminal {
+public:
 	S();
 
 	virtual void print();

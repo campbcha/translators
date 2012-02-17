@@ -1,6 +1,8 @@
 #ifndef Terminal_H
 #define Terminal_H
 
+#include <limits.h>
+
 #include "../ParseNode.h"
 
 #include "../../../Exception.h"
@@ -8,7 +10,7 @@
 
 class Terminal : public ParseNode {
 public:
-	Terminal(Token* token);
+	Terminal(Tag tag);
 
 	void print();
 private:
