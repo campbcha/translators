@@ -2,41 +2,38 @@
 
 
 S::S() {
-	const char* functionName = "S::S()";
+	//const char* functionName = "S::S()";
 
 	// Generate a random number.
-	int number = (rand() % 6);
+	int number = (rand() % 100);
 
 	// Randomly apply a grammar production.
-	if ( number == 0 ) {
+	if ( number < 5 ) {
 		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
 		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 	}
-	else if ( number == 1 ) {
+	else if ( number < 10 ) {
 		parseNodes.push_back(new Terminal(Ibtl::randomTokenAtom()));
 	}
-	else if ( number == 2 ) {
+	else if ( number < 15 ) {
 		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
 		parseNodes.push_back(new S());
 		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 	}
-	else if ( number == 3 ) {
+	else if ( number < 20 ) {
 		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
 		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 		parseNodes.push_back(new S());
 	}
-	else if ( number == 4 ) {
+	else if ( number < 95 ) {
 		parseNodes.push_back(new Terminal(Ibtl::randomTokenAtom()));
-		parseNodes.push_back(new S());
-	}
-	else if ( number == 5 ) {
-		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
-		parseNodes.push_back(new S());
-		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 		parseNodes.push_back(new S());
 	}
 	else {
-		throw new Exception("Unexpected grammar production.", functionName);
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
+		parseNodes.push_back(new S());
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
+		parseNodes.push_back(new S());
 	}
 }
 
