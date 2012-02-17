@@ -14,12 +14,21 @@ F::F() {
 }
 
 
-void F::print() {
+void F::print(int depth) {
 	//const char* function_name = "F::print()";
 	
-	// Call print on each child node.
-	ParseNode::print();
-
 	// Print this node.
-	std::cout << " F ";
+	for ( int i = 0; i < depth; i++ ) {
+		std::cout << " ";
+	}
+	std::cout << "F" << "\n";
+
+	// Call print on each child node.
+	ParseNode::print(depth);
+}
+
+
+void F::writeLexeme(std::ostream& ostream) {
+	// Write child nodes.
+	ParseNode::writeLexeme(ostream);
 }

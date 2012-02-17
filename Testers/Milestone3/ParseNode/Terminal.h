@@ -10,9 +10,11 @@
 
 class Terminal : public ParseNode {
 public:
-	Terminal(Tag tag);
+	Terminal(Token* token);
 
-	void print();
+	virtual void print(int depth);
+
+	virtual void writeLexeme(std::ostream& ostream);
 private:
 	Token* token;
 };

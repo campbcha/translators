@@ -13,7 +13,9 @@ class ParseNode {
 public: 
 	ParseNode();
 
-	virtual void print() = 0;
+	virtual void print(int depth = 0) = 0;
+
+	virtual void writeLexeme(std::ostream& ostream) = 0;
 protected:
 	std::list<ParseNode*> parseNodes;
 };

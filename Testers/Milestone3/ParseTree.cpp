@@ -22,3 +22,17 @@ void ParseTree::print() {
 	rootNode->print();
 	std::cout << "\n";
 }
+
+
+void ParseTree::writeLexeme(std::ostream& ostream) {
+	const char* function_name = "ParseTree::writeLexemes()";
+
+	// Validate preconditions.
+	if ( rootNode == NULL ) {
+		throw new Exception("Root node was NULL.", function_name);
+	}
+	
+	// Write the parse tree recursively.
+	rootNode->writeLexeme(ostream);
+	ostream << "\n";
+}

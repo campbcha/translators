@@ -1,32 +1,29 @@
 #include "Terminal.h"
 
 
-Terminal::Terminal(Tag tag) {
+Terminal::Terminal(Token* token) {
 	//const char* function_name = "Terminal::Terminal()";
 
-	// Create the appropriate Token.
-	if ( tag == VALUE_BOOLEAN ) {
-		token = Ibtl::randomTokenBoolean();
-	}
-	else if ( tag == VALUE_INTEGER ) {
-		token = Ibtl::randomTokenInteger();
-	}
-	else if ( tag == VALUE_REAL ) {
-		token = Ibtl::randomTokenReal();
-	}
-	else if ( tag == VALUE_STRING ) {
-		token = Ibtl::randomTokenString();
-	}
-	else {
-		token = new Token(tag);
-	}
+	// Assign the token.
+	this->token = token;
 }
 
 
-void Terminal::print() {
+void Terminal::print(int depth) {
 	//const char* function_name = "Terminal::print()";
 
-	std::cout << " ";
+	for (int i = 0; i < depth; i++) {
+		std::cout << " ";
+	}
+
 	token->writeLexeme(std::cout);
-	std::cout << " ";
+
+	std::cout << "\n";
+}
+
+
+void Terminal::writeLexeme(std::ostream& ostream) {
+	ostream << " ";
+	token->writeLexeme(ostream);
+	ostream << " ";
 }

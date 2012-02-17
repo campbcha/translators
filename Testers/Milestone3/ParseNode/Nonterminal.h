@@ -11,7 +11,7 @@ class Nonterminal : public ParseNode {
 public:
 	Nonterminal();
 
-	virtual void print() = 0;
+	virtual void print(int depth) = 0;
 };
 
 #endif

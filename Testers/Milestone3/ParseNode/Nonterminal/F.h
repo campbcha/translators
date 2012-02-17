@@ -11,7 +11,9 @@ class F : public Nonterminal {
 public:
 	F();
 
-	virtual void print();
+	virtual void print(int depth);
+
+	virtual void writeLexeme(std::ostream& ostream);
 };
 
 #endif // F_H

@@ -9,30 +9,30 @@ S::S() {
 
 	// Randomly apply a grammar production.
 	if ( number == 0 ) {
-		parseNodes.push_back(new Terminal(PARENTHESIS_OPEN));
-		parseNodes.push_back(new Terminal(PARENTHESIS_CLOSE));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 	}
 	else if ( number == 1 ) {
-		parseNodes.push_back(new Terminal(STATEMENT_IF));
+		parseNodes.push_back(new Terminal(Ibtl::randomTokenAtom()));
 	}
 	else if ( number == 2 ) {
-		parseNodes.push_back(new Terminal(PARENTHESIS_OPEN));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
 		parseNodes.push_back(new S());
-		parseNodes.push_back(new Terminal(PARENTHESIS_CLOSE));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 	}
 	else if ( number == 3 ) {
-		parseNodes.push_back(new Terminal(PARENTHESIS_OPEN));
-		parseNodes.push_back(new Terminal(PARENTHESIS_CLOSE));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 		parseNodes.push_back(new S());
 	}
 	else if ( number == 4 ) {
-		parseNodes.push_back(new Terminal(STATEMENT_IF));
+		parseNodes.push_back(new Terminal(Ibtl::randomTokenAtom()));
 		parseNodes.push_back(new S());
 	}
 	else if ( number == 5 ) {
-		parseNodes.push_back(new Terminal(PARENTHESIS_OPEN));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_OPEN)));
 		parseNodes.push_back(new S());
-		parseNodes.push_back(new Terminal(PARENTHESIS_CLOSE));
+		parseNodes.push_back(new Terminal(new Token(PARENTHESIS_CLOSE)));
 		parseNodes.push_back(new S());
 	}
 	else {
@@ -41,12 +41,21 @@ S::S() {
 }
 
 
-void S::print() {
+void S::print(int depth) {
 	//const char* function_name = "S::print()";
 	
-	// Print each child node.
-	ParseNode::print();
-
 	// Print this node.
-	std::cout << " S ";
+	for ( int i = 0; i < depth; i++ ) {
+		std::cout << " ";
+	}
+	std::cout << "S" << "\n";
+
+	// Print each child node.
+	ParseNode::print(depth);
+}
+
+
+void S::writeLexeme(std::ostream& ostream) {
+	// Write child nodes.
+	ParseNode::writeLexeme(ostream);
 }

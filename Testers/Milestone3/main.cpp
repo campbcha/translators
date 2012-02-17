@@ -10,7 +10,7 @@ int main( int argc, char* argv[] ) {
 		ParseTree* parseTree = new ParseTree();
 
 		// Print the parse tree.
-		parseTree->print();
+		parseTree->writeLexeme(std::cout);
 
 		delete(parseTree);
 	}

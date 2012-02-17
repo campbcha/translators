@@ -10,7 +10,9 @@ class S : public Nonterminal {
 public:
 	S();
 
-	virtual void print();
+	virtual void print(int depth);
+
+	virtual void writeLexeme(std::ostream& ostream);
 };
 
 #endif // S_H
