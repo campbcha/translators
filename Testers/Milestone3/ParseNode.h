@@ -15,7 +15,9 @@ public:
 
 	virtual void print(int depth = 0) = 0;
 
-	virtual void writeLexeme(std::ostream& ostream) = 0;
+	virtual void printLexeme(std::ostream& ostream) = 0;
+
+	virtual void printLatex(std::ostream& ostream) = 0;
 protected:
 	std::list<ParseNode*> parseNodes;
 };

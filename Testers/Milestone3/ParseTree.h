@@ -17,9 +17,13 @@ public:
 	 */
 	void print();
 
-	/** Write the lexemes to the specified ostream.
+	/** Print the parse tree as a LaTeX pstree.
 	 */
-	void writeLexeme(std::ostream& ostream);
+	void printLatex(std::ostream& ostream);
+
+	/** Print the lexemes to the specified ostream.
+	 */
+	void printLexeme(std::ostream& ostream);
 private:
 	// The root node of the parse tree.
 	ParseNode* rootNode;

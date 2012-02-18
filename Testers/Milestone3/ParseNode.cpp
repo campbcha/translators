@@ -25,7 +25,7 @@ void ParseNode::print(int depth) {
 }
 
 
-void ParseNode::writeLexeme(std::ostream& ostream) {
+void ParseNode::printLatex(std::ostream& ostream) {
 	std::list<ParseNode*>::iterator parseNodeIterator;
 
 	// Initialize the iterator.
@@ -34,7 +34,24 @@ void ParseNode::writeLexeme(std::ostream& ostream) {
 	// Print each ParseNode recursively.
 	while ( parseNodeIterator != parseNodes.end() ) {
 		// Call print function.
-		(*parseNodeIterator)->writeLexeme(ostream);
+		(*parseNodeIterator)->printLatex(ostream);
+
+		// Increment the iterator.
+		parseNodeIterator++;
+	}
+}
+
+
+void ParseNode::printLexeme(std::ostream& ostream) {
+	std::list<ParseNode*>::iterator parseNodeIterator;
+
+	// Initialize the iterator.
+	parseNodeIterator = parseNodes.begin();
+
+	// Print each ParseNode recursively.
+	while ( parseNodeIterator != parseNodes.end() ) {
+		// Call print function.
+		(*parseNodeIterator)->printLexeme(ostream);
 
 		// Increment the iterator.
 		parseNodeIterator++;

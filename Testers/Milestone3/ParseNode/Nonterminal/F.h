@@ -13,7 +13,9 @@ public:
 
 	virtual void print(int depth);
 
-	virtual void writeLexeme(std::ostream& ostream);
+	virtual void printLatex(std::ostream& ostream);
+
+	virtual void printLexeme(std::ostream& ostream);
 };
 
 #endif // F_H

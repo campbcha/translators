@@ -16,14 +16,23 @@ void Terminal::print(int depth) {
 		std::cout << " ";
 	}
 
-	token->writeLexeme(std::cout);
+	token->printLexeme(std::cout);
 
 	std::cout << "\n";
 }
 
 
-void Terminal::writeLexeme(std::ostream& ostream) {
+void Terminal::printLatex(std::ostream& ostream) {
+	// Print this node.
+	ostream << " \\TR{";
+	token->printLexeme(ostream);
+	ostream << "} ";
+}
+
+
+void Terminal::printLexeme(std::ostream& ostream) {
 	ostream << " ";
-	token->writeLexeme(ostream);
+	token->printLexeme(ostream);
 	ostream << " ";
 }
+

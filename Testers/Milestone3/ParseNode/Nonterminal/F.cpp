@@ -28,7 +28,20 @@ void F::print(int depth) {
 }
 
 
-void F::writeLexeme(std::ostream& ostream) {
+void F::printLatex(std::ostream& ostream) {
+	
+	// Print this node and begin its header.
+	std::cout << " \\pstree{ \\TR{\\textit{F}} }{";
+
+	// Print each child node.
+	ParseNode::printLatex(ostream);
+
+	// End this node's header.
+	std::cout << "} ";
+}
+
+
+void F::printLexeme(std::ostream& ostream) {
 	// Write child nodes.
-	ParseNode::writeLexeme(ostream);
+	ParseNode::printLexeme(ostream);
 }

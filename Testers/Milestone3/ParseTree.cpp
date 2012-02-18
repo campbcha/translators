@@ -21,11 +21,12 @@ void ParseTree::print() {
 	// Print the parse tree recursively.
 	rootNode->print();
 	std::cout << "\n";
+
 }
 
 
-void ParseTree::writeLexeme(std::ostream& ostream) {
-	const char* function_name = "ParseTree::writeLexemes()";
+void ParseTree::printLexeme(std::ostream& ostream) {
+	const char* function_name = "ParseTree::printLexeme()";
 
 	// Validate preconditions.
 	if ( rootNode == NULL ) {
@@ -33,6 +34,20 @@ void ParseTree::writeLexeme(std::ostream& ostream) {
 	}
 	
 	// Write the parse tree recursively.
-	rootNode->writeLexeme(ostream);
+	rootNode->printLexeme(ostream);
 	ostream << "\n";
+}
+
+
+void ParseTree::printLatex(std::ostream& ostream) {
+	//const char* functionName = "ParseTree::printLatex()";
+
+	// Print beginning header data and the head node.
+	std::cout << "\\begin{figure}[h] \\center \\pstree[nodesep=2pt,levelsep=25px]{\\TR{Begin}} {";
+
+	// Print to the ostream recursively.
+	rootNode->printLatex(ostream);
+
+	// End the head node and header data.
+	std::cout << "} \\end{figure}";
 }
