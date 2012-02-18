@@ -20,6 +20,6 @@ void TokenInteger::print() {
 }
 
 
-void TokenInteger::writeLexeme(std::ostream& ostream) {
+void TokenInteger::printLexeme(std::ostream& ostream) {
 	ostream << this->value;
 }

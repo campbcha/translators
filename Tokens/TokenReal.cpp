@@ -20,6 +20,6 @@ void TokenReal::print() {
 }
 
 
-void TokenReal::writeLexeme(std::ostream& ostream) {
+void TokenReal::printLexeme(std::ostream& ostream) {
 	ostream << this->value;
 }

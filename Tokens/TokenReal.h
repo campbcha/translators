@@ -25,7 +25,7 @@ public:
 
 	/** Write the double value of the token to the specified ostream.
 	 */
-	virtual void writeLexeme(std::ostream& ostream);
+	virtual void printLexeme(std::ostream& ostream);
 
 private:
 	// A double representing the value of a real number in the input code.

@@ -20,6 +20,6 @@ void TokenString::print() {
 }
 
 
-void TokenString::writeLexeme(std::ostream& ostream) {
+void TokenString::printLexeme(std::ostream& ostream) {
 	ostream << this->value->c_str();
 }

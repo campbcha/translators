@@ -20,7 +20,7 @@ void TokenBoolean::print() {
 }
 
 
-void TokenBoolean::writeLexeme(std::ostream& ostream) {
+void TokenBoolean::printLexeme(std::ostream& ostream) {
 	// Write the lexeme.
 	if ( this->value == true ){
 		ostream << "true";

@@ -218,8 +218,8 @@ void Token::print() {
 }
 
 
-void Token::writeLexeme(std::ostream& ostream) {
-	//const char* function_name = "Token::writeLexeme()";
+void Token::printLexeme(std::ostream& ostream) {
+	//const char* function_name = "Token::printLexeme()";
 
 	ostream << this->getTagString().c_str();
 }

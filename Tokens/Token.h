@@ -79,7 +79,7 @@ public:
 	 *  as it is ambiguous how certain values, such as a real, may have been
 	 *  specified.
 	 */
-	virtual void writeLexeme(std::ostream& ostream);
+	virtual void printLexeme(std::ostream& ostream);
 
 protected:
 	// Specifies the type of Token for parser reference.

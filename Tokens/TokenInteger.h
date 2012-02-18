@@ -25,7 +25,7 @@ public:
 
 	/** Write the intger value to the specified ostream.
 	 */
-	virtual void writeLexeme(std::ostream& ostream);
+	virtual void printLexeme(std::ostream& ostream);
 private:
 	// An integer representing the value of an integer in the input code.
 	int value;
