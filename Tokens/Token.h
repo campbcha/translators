@@ -52,6 +52,19 @@ enum Tag {
 	TAG_MAX
 };
 
+/** Enumeration representing the various token types. Used by the lexical analyzer in order to determine how to retrieve data from the token.
+ */
+enum TokenType {
+	// Default functions.
+	TOKEN,
+	TOKEN_BOOLEAN,
+	TOKEN_INTEGER,
+	TOKEN_REAL,
+	TOKEN_STRING,
+	// Add any new tags above this comment
+	TOKEN_MAX
+};
+
 /** Token class meant to be passed to the Parser.
  */
 class Token {
